@@ -112,14 +112,14 @@ body.wk-locked { overflow: hidden; height: 100vh; height: 100dvh; }
 .wk-header .menu-btn { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; min-width: 44px; min-height: 44px; padding: 8px 0 4px; mix-blend-mode: difference; }
 .wk-header .menu-label { font-size: clamp(12px, 1.25vw, 15px); letter-spacing: .01em; line-height: 1; color: #fff; transition: opacity .35s; }
 .wk-header .bars { position: relative; display: block; width: clamp(42px, 4.4vw, 62px); height: clamp(16px, 2vw, 22px); }
-.wk-header .bars i { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: #fff; transform: translateY(-5px); transition: transform .45s var(--ease), width .45s var(--ease), background .3s; }
-.wk-header .bars i:last-child { left: auto; width: clamp(34px, 3.6vw, 50px); transform: translateY(5px); }
+.wk-header .bars i { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: #fff; transform: translateY(-5px); transition: transform .45s var(--ease), clip-path .45s var(--ease), background .3s; }
+.wk-header .bars i:last-child { transform: translateY(5px); clip-path: inset(0 0 0 calc(100% - clamp(34px, 3.6vw, 50px))); }
 .wk-header .menu-btn:hover .bars i:last-child { transform: translateY(5px) translateX(-8px); }
 .wk-header.open .menu-label { opacity: 0; }
 .wk-header.open .menu-btn { mix-blend-mode: normal; }
 .wk-header.open .wordmark { filter: none; } /* no shadow halo on the menu's near-black */
-.wk-header.open .bars i { width: 100%; background: #f4f2ef; transform: translateY(0) rotate(45deg); }
-.wk-header.open .bars i:last-child { transform: translateY(0) rotate(-45deg); }
+.wk-header.open .bars i { background: #f4f2ef; transform: translateY(0) rotate(45deg); }
+.wk-header.open .bars i:last-child { transform: translateY(0) rotate(-45deg); clip-path: inset(0); }
 
 .wk-bio { position: fixed; left: calc(var(--pad) + var(--safe-left)); bottom: calc(var(--pad) + var(--safe-bottom)); z-index: 55; max-width: min(320px, 46vw); transition: opacity 1.2s .15s, transform .5s var(--ease); }
 .wk-bio .who { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
@@ -173,8 +173,9 @@ body.wk-locked { overflow: hidden; height: 100vh; height: 100dvh; }
 .wk-meta .sample { display: inline-block; margin-top: 10px; padding: 3px 8px; border-radius: 999px; background: rgba(245,221,110,.16); color: #f5dd6e; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; }
 
 /* ---------- the cursor ---------- */
-.wk-dot { position: fixed; left: 0; top: 0; z-index: 300; width: 19px; height: 19px; margin: -9.5px 0 0 -9.5px; border-radius: 50%; background: rgba(214,212,209,.9); border: 1px solid transparent; mix-blend-mode: difference; pointer-events: none; transition: width .35s ease, height .35s ease, margin .35s ease, background .35s ease, border-color .35s ease, opacity .3s; }
-.wk-dot.wide { width: 52px; height: 52px; margin: -26px 0 0 -26px; background: rgba(244,242,239,.14); border-color: rgba(244,242,239,.75); }
+.wk-dot { position: fixed; left: 0; top: 0; z-index: 300; width: 52px; height: 52px; margin: -26px 0 0 -26px; mix-blend-mode: difference; pointer-events: none; transition: opacity .3s; }
+.wk-dot::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: rgba(214,212,209,.9); border: 1px solid transparent; transform: scale(.365); transition: transform .35s ease, background .35s ease, border-color .35s ease; }
+.wk-dot.wide::before { transform: scale(1); background: rgba(244,242,239,.14); border-color: rgba(244,242,239,.75); }
 @media (hover: none), (pointer: coarse) { .wk-dot { display: none; } }
 
 /* ---------- the splash ---------- */
