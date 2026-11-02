@@ -1,8 +1,9 @@
-// Entry point. The page opens on the flittle ink cover and scrolls into the story: the bust, the
-// pinned zoom-out, the services and approach screens, then the portfolio orbit. This wires it all
-// together: the cover's reveal, smooth corners, the header clock, the onboarding reveals, the
-// bottom veil, the page tone, the bust with its scroll and pointer choreography, the hero title's
-// soft window that follows the head, and the orbit. The story header stays hidden under the cover.
+// Entry point. The page opens on the flittle ink cover and scrolls into the story: the bust on its
+// plain dark ground, the pinned zoom-out, the services and approach screens, then the portfolio
+// orbit and the invitation. This wires it all together: the cover's reveal, smooth corners, the
+// header clock, the onboarding reveals, the bottom veil, the page tone, the bust with its scroll
+// and pointer choreography, the orbit with its hold, and the contact section. The story header
+// stays hidden under the cover.
 import { initInkHero } from './lib/ink.js';
 import { initSquircles } from './lib/squircle.js';
 import { initClock } from './lib/header.js';
@@ -17,13 +18,8 @@ import { initOrbit } from './lib/orbit.js';
 import { initHold } from './lib/hold.js';
 import { initContact } from './lib/contact.js';
 
-// The title's radial mask is a little larger than the head so the glyphs clear its outline.
-const MASK_X = 0.5 / 0.64;
-const MASK_Y = (0.5 * 1.08) / 0.64;
 // The cover counts as "up" until this share of it has scrolled away; then the story header appears.
 const COVER_SHARE = 0.6;
-// The hero title spans the screen this far from each edge.
-const TITLE_INSET = 24;
 
 const root = document.documentElement;
 
@@ -51,40 +47,9 @@ updateCover();
 
 // ---- the bust ----
 const stage = document.querySelector('[data-stage]');
-const title = stage.querySelector('.hero__title');
 const cloud = createCloud(stage);
 const scroll = createScroll();
 initFrame(cloud, { onGround: (g) => tone.set(g) });
-
-// The pixel title fills the width edge to edge (its widest line on phones), whatever it says.
-function fitTitle() {
-  title.style.fontSize = '100px';
-  const range = document.createRange();
-  range.selectNodeContents(title);
-  const width = range.getBoundingClientRect().width || 1;
-  title.style.fontSize = `${(100 * (window.innerWidth - 2 * TITLE_INSET)) / width}px`;
-}
-fitTitle();
-window.addEventListener('resize', fitTitle);
-if (document.fonts?.ready) document.fonts.ready.then(fitTitle);
-
-// Cut a soft window in the title where the head stands in front of it.
-let lastMask = '';
-cloud.onPlace = () => {
-  if (root.classList.contains('is-hero-out')) return;
-  const { x: nx, y: ny } = cloud.headNdc;
-  const x = Math.round(((nx + 1) / 2) * window.innerWidth - title.offsetLeft);
-  const y = Math.round(((1 - ny) / 2) * window.innerHeight - (title.offsetTop - title.offsetHeight / 2));
-  const rx = Math.round(cloud.headPx.w * MASK_X);
-  const ry = Math.round(cloud.headPx.h * MASK_Y);
-  const key = `${x},${y},${rx},${ry}`;
-  if (key === lastMask) return;
-  lastMask = key;
-  title.style.setProperty('--hx', `${x}px`);
-  title.style.setProperty('--hy', `${y}px`);
-  title.style.setProperty('--hrx', `${rx}px`);
-  title.style.setProperty('--hry', `${ry}px`);
-};
 
 cloud.load(MODEL_URL)
   .then(() => { initCursor(cloud, scroll); })

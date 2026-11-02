@@ -94,16 +94,6 @@ img { display: block; max-width: 100%; }
 /* ---- hero ---- */
 /* The Kin hero rests for half a screen after the flittle cover has scrolled away, before the OS pin begins. */
 .hero { position: relative; height: 50vh; }
-.hero__title {
-  position: absolute; z-index: 0; left: 0; right: 0; margin: 0;
-  top: calc(var(--bust-top, calc(107% - min(78%, 98.4vw))) + 40px);
-  transform: translateY(-50%);
-  font-family: var(--font-pixel); font-size: calc((100vw - 48px) / 6.536); font-weight: 400;
-  line-height: var(--lh-d1); letter-spacing: 0; text-transform: uppercase; text-align: center; white-space: nowrap;
-  color: var(--ink-2);
-  -webkit-mask-image: radial-gradient(var(--hrx, 24vh) var(--hry, 30vh) at var(--hx, 50%) var(--hy, 130%), transparent 0%, transparent 64%, #000 100%);
-  mask-image: radial-gradient(var(--hrx, 24vh) var(--hry, 30vh) at var(--hx, 50%) var(--hy, 130%), transparent 0%, transparent 64%, #000 100%);
-}
 .hero__note { position: fixed; left: 24px; bottom: 24px; z-index: 3; font-size: var(--t-l); line-height: var(--lh-l); letter-spacing: var(--tr-l); }
 .hero__meta {
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--s16); margin-bottom: var(--s24);
@@ -124,24 +114,21 @@ img { display: block; max-width: 100%; }
 .badge--ember { color: var(--ember); }
 
 /* entrance, once */
-.js .hero__title { animation: title-in var(--dur-in) var(--ease-expo) backwards; }
 .js .hero__meta { animation: block-in var(--dur-in) var(--ease-expo) 60ms backwards; }
 .js .hero__lead { animation: block-in var(--dur-in) var(--ease-expo) 120ms backwards; }
-@keyframes title-in { from { opacity: 0; transform: translateY(calc(-50% + var(--in-y))); filter: blur(var(--in-blur)); } }
 @keyframes block-in { from { opacity: 0; transform: translateY(var(--in-y)); filter: blur(var(--in-blur)); } }
 
 /* exit on the first scroll, and the way back */
-.hero__title, .hero__meta, .hero__lead {
+.hero__meta, .hero__lead {
   transition: opacity 1100ms var(--ease-expo), translate 1100ms var(--ease-expo), scale 1100ms var(--ease-expo), filter 1100ms var(--ease-expo), visibility 0s;
 }
 .hero__meta { transition-delay: 80ms; }
 .hero__lead { transition-delay: 160ms; }
-.is-hero-out .hero__title, .is-hero-out .hero__meta, .is-hero-out .hero__lead {
+.is-hero-out .hero__meta, .is-hero-out .hero__lead {
   opacity: 0; visibility: hidden;
   transition: opacity 700ms cubic-bezier(.45, 0, .55, 1), translate 700ms var(--ease-out), scale 700ms var(--ease-out), filter 700ms var(--ease-out), visibility 0s 760ms;
   transition-delay: 0s, 0s, 0s, 0s, 760ms;
 }
-.is-hero-out .hero__title { translate: 0 -4vh; scale: .97; filter: blur(16px); }
 .is-hero-out .hero__meta, .is-hero-out .hero__lead { translate: 0 -16px; filter: blur(10px); }
 .is-hero-out .hero__lead { transition-delay: 70ms, 70ms, 70ms, 70ms, 830ms; }
 /* the note's own box goes with its text (on phones it is a glass card, which would otherwise linger) */
@@ -323,8 +310,6 @@ img { display: block; max-width: 100%; }
   .hd__bar { flex: 1; }
   .hd__rule, .hd__nav, .hd__btn--card { display: none; }
   .hd__btn--main { margin-left: auto; }
-  .hero__title { left: -.038em; font-size: calc((100vw - 48px) / 3.192); white-space: normal; }
-  .hero__title span { display: block; }
   .hero__note {
     left: 8px; right: 8px; bottom: 8px; padding: 16px; border-radius: var(--r-l);
     background: var(--glass); -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter);
@@ -338,11 +323,11 @@ img { display: block; max-width: 100%; }
 
 /* ---- reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
-  .js .hd, .js .hero__title, .js .hero__meta, .js .hero__lead { animation: none; }
-  .hero__title, .hero__meta, .hero__lead, .is-hero-out .hero__title, .is-hero-out .hero__meta, .is-hero-out .hero__lead {
+  .js .hd, .js .hero__meta, .js .hero__lead { animation: none; }
+  .hero__meta, .hero__lead, .is-hero-out .hero__meta, .is-hero-out .hero__lead {
     transition: opacity 200ms ease, visibility 0s 200ms; transition-delay: 0s;
   }
-  .is-hero-out .hero__title, .is-hero-out .hero__meta, .is-hero-out .hero__lead { translate: none; scale: none; filter: none; }
+  .is-hero-out .hero__meta, .is-hero-out .hero__lead { translate: none; scale: none; filter: none; }
   .hd__dot, .badge__dot--live, .caret-text { animation: none; }
   .js .rv { transform: none; filter: none; transition: opacity 200ms ease; }
   .js .is-in .rv, .js .rv.is-in { transition: opacity 200ms ease; transition-delay: 0s; }
