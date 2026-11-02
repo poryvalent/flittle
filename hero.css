@@ -1,0 +1,68 @@
+/* The flittle opening cover. An off-white screen with the black-and-white wordmark; the pointer
+   leaves gooey ink blobs that reveal the ink video, the white letters and the full-colour cat.
+   Everything is scoped to .ink-hero so none of it leaks into the Kin OS sections that follow, and
+   the cover sits above the fixed bust stage until it has scrolled away. */
+.ink-hero {
+  --ink-bg: #f4f4f2; --ink-fg: #0d0d0d; --ink-muted: #8a8a88; --ink-word: #24282c;
+  position: relative; z-index: 5; isolation: isolate;
+  width: 100%; height: 100vh; height: 100svh; overflow: hidden;
+  background: var(--ink-bg); color: var(--ink-fg);
+  font-family: "Inter Tight", system-ui, sans-serif; font-size: 16px; line-height: 1.25; letter-spacing: 0;
+  -webkit-font-smoothing: antialiased; cursor: none;
+}
+.ink-hero .bg-video { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* wordmark: "fli" + cat + "le"; the black & white version lives in the DOM */
+.ink-hero .word {
+  position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); margin: 0; text-align: center;
+  font-family: "Fredoka", "Inter Tight", system-ui, sans-serif; font-weight: 600; letter-spacing: 0;
+  line-height: 0.8; white-space: nowrap; user-select: none; pointer-events: none;
+  font-kerning: none; font-variant-ligatures: none;
+}
+.ink-hero .word .w { display: inline-block; }
+.ink-hero .word .t { display: inline; }
+.ink-hero .word--base { color: var(--ink-word); z-index: 1; }
+.ink-hero .word .cat { display: inline-block; vertical-align: baseline; filter: grayscale(1) brightness(.86); -webkit-user-drag: none; }  /* size + offsets set in JS from the logo's proportions */
+.ink-hero .baseline { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+
+.ink-hero #reveal { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+
+/* corner UI */
+.ink-hero .ui { position: absolute; z-index: 4; font-size: 13px; line-height: 1.25; }
+.ink-hero .top-left { top: 26px; left: 30px; max-width: 280px; }
+.ink-hero .top-left .eyebrow { font-size: 10px; color: var(--ink-muted); margin-bottom: 8px; letter-spacing: .02em; }
+.ink-hero .top-left p { font-weight: 500; color: #3a3a3a; margin: 0; }
+.ink-hero .pill {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 7px 12px 7px 14px; background: var(--ink-fg); color: #fff;
+  border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; cursor: none;
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1);
+}
+.ink-hero .pill:hover { transform: translateX(3px); }
+.ink-hero .pill svg { width: 8px; height: 8px; }
+.ink-hero .nav { top: 26px; right: 30px; list-style: none; margin: 0; padding: 0; }
+.ink-hero .nav li { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+.ink-hero .nav li i { display: inline-block; width: 14px; height: 6px; border-radius: 3px; background: #cfcfcc; transition: background .3s, width .3s; }
+.ink-hero .nav a { color: #555; text-decoration: none; cursor: none; transition: color .3s; }
+.ink-hero .nav li:hover i { background: var(--ink-fg); width: 20px; }
+.ink-hero .nav li:hover a { color: var(--ink-fg); }
+.ink-hero .bottom-left  { bottom: 24px; left: 30px;  font-size: 10px; color: var(--ink-muted); }
+.ink-hero .bottom-right { bottom: 24px; right: 30px; font-size: 10px; color: var(--ink-muted); }
+.ink-hero .scroll-dash { display: inline-block; width: 18px; height: 3px; background: #bdbdba; border-radius: 2px; vertical-align: middle; margin-right: 8px; }
+
+/* custom cursor, only while the pointer is over the cover */
+.ink-cursor {
+  position: fixed; z-index: 11; top: 0; left: 0; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #0d0d0d;
+  mix-blend-mode: difference; filter: invert(1); pointer-events: none; opacity: 0;
+  transition: width .25s, height .25s, margin .25s, opacity .2s;
+}
+.ink-cursor.on { opacity: 1; }
+.ink-cursor.big { width: 34px; height: 34px; margin: -17px 0 0 -17px; }
+
+@media (max-width: 640px) {
+  .ink-hero .top-left { top: 18px; left: 16px; max-width: 200px; }
+  .ink-hero .nav { top: 18px; right: 16px; }
+  .ink-hero .bottom-left { left: 16px; }
+  .ink-hero .bottom-right { right: 16px; }
+  .ink-hero, .ink-hero .pill, .ink-hero .nav a { cursor: auto; }
+  .ink-cursor { display: none; }
+}

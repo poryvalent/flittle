@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flittle — tech consultancy</title>
+<meta name="theme-color" content="#f4f4f2">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>
+  // Runs before first paint. The "js" class lets the CSS hold elements back for their entrance
+  // (without scripts nothing is hidden). Helvetica Neue is the body face of the story; if the
+  // device does not have it, the fallback width test fails and Inter is loaded instead.
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try {
+      var ctx = document.createElement('canvas').getContext('2d');
+      var sample = 'mmmmmlliiWWQ@';
+      ctx.font = '72px monospace';
+      var mono = ctx.measureText(sample).width;
+      ctx.font = '72px "Helvetica Neue", monospace';
+      var helv = ctx.measureText(sample).width;
+      if (mono === helv) {
+        root.classList.add('no-helvetica');
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap';
+        document.head.appendChild(link);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Inter+Tight:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Geist Pixel Square"; src: url("https://cdn.jsdelivr.net/npm/geist@1.8.1/dist/fonts/geist-pixel/GeistPixel-Square.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Geist Pixel Circle"; src: url("https://cdn.jsdelivr.net/npm/geist@1.8.1/dist/fonts/geist-pixel/GeistPixel-Circle.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+</style>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hero.css">
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }
+</script>
+</head>
+<body>
+<header class="hd" data-header>
+  <div class="hd__bar" data-sq>
+    <a class="hd__tile" href="#top" aria-label="Flittle" data-sq><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></a>
+    <time class="hd__clock" data-clock><span data-hm>14:05</span><span class="hd__sec" data-s>:00</span></time>
+    <i class="hd__rule" aria-hidden="true"></i>
+    <span class="hd__status"><i class="hd__dot" aria-hidden="true"></i>Taking on new projects</span>
+    <i class="hd__rule hd__rule--status" aria-hidden="true"></i>
+    <nav class="hd__nav" aria-label="Sections">
+      <a href="#services">Services</a><a href="#approach">Approach</a><a href="#work">Work</a>
+    </nav>
+    <a class="hd__btn hd__btn--card" href="#work" data-sq>Our work</a>
+    <a class="hd__btn hd__btn--main" href="#contact" data-sq>Start a project</a>
+  </div>
+</header>
+
+<!-- the flittle cover: the opening screen with the ink reveal -->
+<section class="ink-hero" id="hero">
+  <h1 class="word word--base" id="wordBase" aria-label="flittle"><span class="w" id="wordSpan" aria-hidden="true"><span class="t">fli</span><img class="cat" id="catBase" alt="" draggable="false"><span class="t">le</span></span><i class="baseline" id="baseline"></i></h1>
+  <canvas id="reveal"></canvas>
+  <div class="ui top-left">
+    <div class="eyebrow">Tech consultancy ©26</div>
+    <p>Everything your company needs<br/>from technology. Done by us.</p>
+    <a class="pill" href="#contact">Start a project
+      <svg viewBox="0 0 8 8"><path d="M2 1l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </a>
+  </div>
+  <ul class="ui nav">
+    <li><i></i><a href="#services">Services</a></li>
+    <li><i></i><a href="#approach">Approach</a></li>
+    <li><i></i><a href="#work">Work</a></li>
+  </ul>
+  <div class="ui bottom-left"><span class="scroll-dash"></span>Scroll</div>
+  <div class="ui bottom-right">Roam to unveil</div>
+  <video id="bgVideo" class="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261019_164212_f2ea9659-cd8a-4e4a-a4ea-d20479d1011d.mp4" muted playsinline crossorigin="anonymous" preload="auto" autoplay></video>
+  <video id="bgVideo2" class="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261019_164212_f2ea9659-cd8a-4e4a-a4ea-d20479d1011d.mp4" muted playsinline crossorigin="anonymous" preload="auto"></video>
+</section>
+<div class="ink-cursor" id="cursor"></div>
+
+<main id="top">
+  <section class="hero">
+    <h2 class="sr-only">Hello, we're flittle</h2>
+    <div class="hero__note" data-sq>
+      <div class="hero__meta">
+        <span class="badge" data-sq><i class="badge__dot" aria-hidden="true"></i>Now booking</span>
+        <span>Flittle · tech consultancy</span>
+      </div>
+      <p class="hero__lead">Flittle is the tech team you call<br> when it has to work. <span>From the first audit to the last deploy.</span></p>
+    </div>
+  </section>
+
+  <section class="os" id="os" data-screen="os" aria-labelledby="os-title">
+    <h2 class="sr-only" id="os-title">Everything your company runs on, handled by one team.</h2>
+    <div class="os__pin">
+      <figure class="ow ow--img ow--img-b" data-at=".42" data-drift="12" data-sq><img class="ph" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GJaYKPxdnQG0Q9O26lu6DPmcHu/65780413-cd15-4e63-a0db-af11c2837342.webp" alt="" width="640" height="430" decoding="async" data-sq><figcaption>Engineers <span>24</span></figcaption></figure>
+      <figure class="ow ow--img ow--img-c" data-at=".48" data-drift="16" data-sq><img class="ph" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GJaYKPxdnQG0Q9O26lu6DPmcHu/e84aba94-1b85-4773-88a8-dd75214d4a9e.webp" alt="" width="640" height="430" decoding="async" data-sq><figcaption>Launches <span>9</span></figcaption></figure>
+      <div class="ow ow--add" data-at=".50" data-drift="18" data-sq><span>New request</span><span class="lkey" data-sq aria-hidden="true"><i class="plus"></i></span></div>
+      <div class="ow ow--tools" data-at=".40" data-drift="9" data-sq>
+        <span class="lchip" data-sq>Audit<kbd data-sq>⌘A</kbd></span>
+        <span class="lchip" data-sq>Build<kbd data-sq>⌘B</kbd></span>
+        <span class="lchip" data-sq>Scale<kbd data-sq>S</kbd></span>
+      </div>
+      <article class="ow ow--chart" data-at=".46" data-drift="14" data-sq>
+        <div class="ow__head"><span>Delivery this quarter</span><span class="ow__up">+12%</span></div>
+        <div class="minibars" aria-hidden="true"><i style="--h:46"></i><i style="--h:62"></i><i style="--h:34"></i><i style="--h:28"></i><i style="--h:74"></i><i style="--h:58"></i><i class="now" style="--h:66"></i></div>
+        <div class="minibars__axis"><span>Jan</span><span>Now</span></div>
+      </article>
+      <div class="ow ow--composer" data-at=".58" data-drift="6" data-sq>
+        <p class="composer__text" data-type="Move our platform to the cloud and cut the monthly bill in half."><span data-typed>Ask flittle anything…</span><i class="caret-text" aria-hidden="true"></i></p>
+        <div class="composer__bar">
+          <span class="lkey" data-sq aria-hidden="true"><i class="plus"></i></span>
+          <span class="lchip" data-sq>Brief</span>
+          <span class="lchip" data-sq>Codebase</span>
+          <span class="composer__end">
+            <span class="lkey" data-sq aria-hidden="true"><i class="mic"></i></span>
+            <span class="lkey lkey--send" data-sq aria-hidden="true"><i class="arrow arrow--up"></i></span>
+          </span>
+        </div>
+        <i class="composer__glow" aria-hidden="true"></i>
+      </div>
+      <div class="ow ow--toast" data-at=".72" data-drift="11" data-sq role="status">
+        <span class="done" aria-hidden="true"></span>Done. Migration live, bill down 46%.
+      </div>
+    </div>
+  </section>
+
+  <section class="screen screen--right" id="services" data-screen="memory">
+    <div class="screen__col">
+      <header class="screen__head" data-reveal data-depth="0.04">
+        <p class="screen__eyebrow"><span class="badge" data-sq><i class="badge__dot" aria-hidden="true"></i>End to end</span><span>Services</span></p>
+        <h2 class="screen__title">We handle the whole stack, so you don't have to. <span class="screen__sub">Strategy, build, launch, run.</span></h2>
+        <p class="screen__text">Product, engineering, cloud, data and security, delivered by one accountable team from the first audit to the last deploy.</p>
+      </header>
+      <ul class="chips" data-reveal data-depth="0.06">
+        <li class="chip" data-sq>Software</li><li class="chip" data-sq>Cloud</li><li class="chip" data-sq>Data</li><li class="chip" data-sq>Security</li>
+      </ul>
+      <article class="panel" data-sq data-reveal data-depth="0.1">
+        <div class="panel__head">
+          <h3 class="panel__title">Shipped</h3>
+          <div class="seg" data-sq role="tablist" aria-label="Range">
+            <button class="seg__btn" data-sq role="tab" aria-selected="false" type="button" data-range="Day">Day</button>
+            <button class="seg__btn is-on" data-sq role="tab" aria-selected="true" type="button" data-range="Week">Week</button>
+            <button class="seg__btn" data-sq role="tab" aria-selected="false" type="button" data-range="Month">Month</button>
+          </div>
+        </div>
+        <div class="bars" data-bars='{"Day":{"values":[14,22,46,38,18,26,58,44,30,62,40,72],"axis":["8 AM","10 AM","12 PM","2 PM","4 PM","Now"],"now":11},"Week":{"values":[48,62,30,24,70,56,66],"axis":["Thu","Fri","Sat","Sun","Mon","Tue","Now"],"now":6},"Month":{"values":[34,52,28,61,44,22,57,70,38,26,49,63,31,55,72,40,24,58,66,35,47,69,29,53,74,42,36,60,51,68],"axis":["Sep 22","Sep 29","Oct 6","Oct 13","Now"],"now":29}}'>
+          <div class="bars__plot" aria-hidden="true"></div>
+          <div class="bars__axis"></div>
+        </div>
+        <p class="panel__note"><span data-count="1204">1,204</span> releases shipped · <span data-count="312">312</span> incidents prevented</p>
+      </article>
+      <article class="panel" data-sq data-reveal data-depth="0.1">
+        <div class="panel__head">
+          <h3 class="panel__title">How we work</h3>
+          <span class="badge badge--quiet" data-sq>Embedded</span>
+        </div>
+        <div class="track" aria-hidden="true"><i style="--w:100;--c:var(--glow)"></i></div>
+        <div class="legend"><span><i style="--c:var(--glow)"></i>With your team · 100%</span><span><i style="--c:var(--fill-3)"></i>Hand-offs · 0%</span></div>
+        <ul class="chips">
+          <li class="chip" data-sq>Fixed scope<kbd data-sq>⌘F</kbd></li>
+          <li class="chip" data-sq>Retainer<kbd data-sq>⌘R</kbd></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="screen screen--left" id="approach" data-screen="agents">
+    <div class="screen__col">
+      <header class="screen__head" data-reveal data-depth="0.04">
+        <p class="screen__eyebrow"><span class="badge" data-sq><i class="badge__dot badge__dot--live" aria-hidden="true"></i>On call</span><span>Approach</span></p>
+        <h2 class="screen__title">We own the outcome. <span class="screen__sub">And we keep you in the loop.</span></h2>
+        <p class="screen__text">Our teams take the roadmap, the backlog and the pager, and stop at anything that's yours to decide.</p>
+      </header>
+      <ul class="chips" data-reveal data-depth="0.06">
+        <li class="chip" data-sq>Audit<kbd data-sq>⌘K</kbd></li><li class="chip" data-sq>Roadmap<kbd data-sq>⌘S</kbd></li><li class="chip" data-sq>Pager<kbd data-sq>L</kbd></li>
+      </ul>
+      <article class="panel" data-sq data-reveal data-depth="0.1">
+        <div class="panel__head">
+          <h3 class="panel__title">Hours saved this month</h3>
+          <span class="badge" data-sq><span data-count="214">214</span>&nbsp;h</span>
+        </div>
+        <div class="bars" data-bars='{"Today":{"values":[10,10,10,10,10,10,10,10,10,10,84,10,10,10,10,24,24,24,66,40,10,10,10,52,10,92,30,10,10,48,64],"axis":["6 AM","8 AM","10 AM","12 PM","2 PM","Now"],"now":30}}'>
+          <div class="bars__plot" aria-hidden="true"></div>
+          <div class="bars__axis"></div>
+        </div>
+        <p class="panel__note"><span data-count="3240">3,240</span> tickets handled · 3 waiting for you</p>
+      </article>
+      <article class="panel" data-sq data-reveal data-depth="0.1">
+        <div class="panel__head">
+          <h3 class="panel__title">Focus time</h3>
+          <span class="badge badge--ember" data-sq>Needs you · 3</span>
+        </div>
+        <div class="stat">
+          <p class="stat__value"><span data-count="78">78</span><small>%</small></p>
+          <p class="stat__label">handled without a meeting</p>
+        </div>
+        <div class="ticks" data-ticks="48" data-on="37" aria-hidden="true"></div>
+        <p class="panel__note">22% needed you · they wait for you at 9:30</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="portfolio" id="work" data-screen="work" aria-labelledby="work-title">
+    <canvas class="portfolio__canvas" data-orbit aria-label="Orbit of project cards; spin it with the wheel, drag to turn"></canvas>
+    <div class="portfolio__ui" data-reveal>
+      <p class="screen__eyebrow"><span class="badge" data-sq><i class="badge__dot" aria-hidden="true"></i>Selected work</span><span>Portfolio</span></p>
+      <h2 class="screen__title" id="work-title">Projects we have shipped. <span class="screen__sub">Spin the wheel to turn it, drag to orbit, click to open.</span></h2>
+    </div>
+    <div class="portfolio__caption" data-orbit-caption aria-live="polite"><span class="portfolio__name"></span><span class="portfolio__meta"></span></div>
+    <p class="portfolio__hint"><span><span data-count="24">24</span> projects · 2022 – 2026</span><span class="portfolio__spin">Your wheel turns the orbit</span></p>
+    <div class="portfolio__nav" role="group" aria-label="Leave the portfolio">
+      <button class="portfolio__arrow" type="button" data-prev aria-label="Back up to our approach">
+        <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></i>
+        <span>Approach</span>
+      </button>
+      <button class="portfolio__arrow" type="button" data-next aria-label="On down to: let's work together">
+        <span>Let's work together</span>
+        <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- the closing invitation: click it and the booking button takes its place -->
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <div class="contact__wrap" data-contact>
+      <div class="contact__done" data-contact-done aria-hidden="true">
+        <span class="contact__kicker">Perfect</span>
+        <p class="contact__talk">Let's talk</p>
+        <a class="contact__book" href="#" data-book>
+          <i class="contact__line" aria-hidden="true"></i>
+          <span class="contact__pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4"/><path d="M16 2v4"/><path d="M3 10h18"/></svg>
+            <span>Book a call</span>
+            <svg class="contact__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </span>
+          <i class="contact__line" aria-hidden="true"></i>
+        </a>
+        <span class="contact__sub">15 min intro call</span>
+      </div>
+      <p class="contact__avail"><span class="contact__ping" aria-hidden="true"><i></i><i></i></span>Available for projects</p>
+      <div class="contact__cta" data-contact-cta>
+        <h2 class="contact__title" id="contact-title"><span class="contact__l"><span>Let's work</span></span><span class="contact__l"><span class="contact__muted">together</span></span></h2>
+        <button class="contact__ring" type="button" aria-label="Get in touch"><i aria-hidden="true"></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button>
+        <i class="contact__line contact__line--l" aria-hidden="true"></i>
+        <i class="contact__line contact__line--r" aria-hidden="true"></i>
+      </div>
+      <div class="contact__foot">
+        <p>Have a project in mind? Tell us about it. We'll make it work.</p>
+        <a class="contact__mail" href="#" data-mail>hello@flittle.com</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="stage" data-stage aria-hidden="true">
+  <p class="hero__title"><span>Hello,</span> <span>we're flittle</span></p>
+  <div class="frame-head" data-frame-head>
+    <span class="badge" data-sq><i class="badge__dot" aria-hidden="true"></i>Flittle</span>
+    <p class="frame-head__title">Everything your company runs on, <span>handled by one team.</span></p>
+  </div>
+</div>
+
+<script type="module" src="main.js"></script>
+</body>
+</html>

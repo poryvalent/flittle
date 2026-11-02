@@ -1,47 +1,28 @@
-# Flittle website
+# flittle
 
-Next.js (App Router) · TypeScript · Tailwind v4 · shadcn/ui · lucide-react.
-
-```bash
-npm install
-npm run dev      # http://localhost:3000
-npm run build && npm start
-```
-
-## Pages
-
-| Route | What it is | Main files |
-| --- | --- | --- |
-| `/` | Ink-reveal hero with the logo as the wordmark, then the main story (point-cloud bust of a person, pinned zoom-out with flying widgets, scroll panels), then the "Let's work together" ending | `src/components/ink-hero.tsx`, `main-story.tsx`, `bust-stage.tsx`, `ui/lets-work-section.tsx` |
-| `/work` | A splash, then the eye film (`public/media/eye-intro.mp4`, 2x) dives into the pupil and lands on the archive: a Fibonacci sphere of project covers around a centred headline, drag to rotate, 16vh of scroll to dolly in, a flat grid, a lightbox that flies out of its card, and the page's own header, full-screen menu and cursor | `src/components/work-archive.tsx`, `work-intro.tsx`, `work-chrome.tsx`, `work.css`, `src/lib/projects.ts`, `src/lib/covers.ts` |
-
-The archive's covers are generated SVGs (`src/lib/covers.ts`) drawn from each project record; set `image` on a project to use a real screenshot instead. `public/cat.png` is the cat cut out of the logo for the studio card. The old CSS-drawn eye video stand-ins `public/media/eye.mp4` and the eye poster's original are no longer used by `/work` (the cleaned copy is `eye-intro.mp4`; `eye-poster.jpg` is still the poster frame).
-
-The logo is `public/logo.png`. `public/logo-mark.png` and `logo-white.png` are cut-outs of its wordmark (the opening page draws them, and the white one shows inside the ink). The bust is the `Zaghetto.pcd` point cloud from three.js's examples, kept in `public/models/`.
-
-## Deploying
-
-The site is a plain Next.js app with static routes, so Vercel needs no configuration. Two ways to ship it:
-
-**From this folder (quickest)**
+The flittle website: one page, plain HTML, CSS and ES modules, no build step.
 
 ```bash
-npx vercel login          # once; opens the browser
-npx vercel --prod --yes   # builds on Vercel and prints the live URL
+npx serve .        # then open the printed URL
 ```
 
-**From GitHub (auto-deploys on every push)**
+Any static server works. Open it in Chrome, Edge or Safari: the cover's two background videos are HEVC, which Firefox does not decode (the cover falls back to its gradient there).
 
-1. Push this repo to GitHub.
-2. In Vercel: Add New → Project → import the repo. The Next.js preset is detected; leave the defaults.
-3. Every push to `main` deploys production; other branches get preview URLs.
+## What is on the page
 
-No environment variables are needed. The Google fonts are fetched at build time by `next/font`.
+1. **Cover** (`index.html` → `.ink-hero`, `hero.css`, `lib/ink.js`): the flittle wordmark with the mascot cat, grey at rest; moving the pointer reveals the colour and the video through ink blobs.
+2. **Story** (`style.css`, `tokens.css`, `lib/cloud.js`, `cursor.js`, `liquid.js`, `scroll.js`, `frame.js`, `reveal.js`, `veil.js`, `tone.js`): the point-cloud bust that follows the pointer, the pinned zoom-out with the flying widgets, then the Services and Approach screens.
+3. **Work** (`lib/orbit.js`, `lib/hold.js`, `lib/projects.js`): the bust bursts into dust and its surviving points become the stars of the orbit, a sphere with the project cards around it. The page freezes on this section: the wheel spins the orbit, drag turns it, hover reads a project, click opens it, and the two arrows in the pill at the bottom leave it.
+4. **Contact** (`lib/contact.js`): "Let's work together"; clicking it brings in the booking button.
 
-## Placeholders to replace before launch
+## Things to fill in
 
-- **Portfolio**: all 21 projects in `src/lib/projects.ts` are marked samples with generated artwork.
-- **Booking link and email**: `BOOKING_URL` and `EMAIL` at the top of `src/components/ui/lets-work-section.tsx`, plus the address in both menus (`src/components/site-chrome.tsx`, `src/components/work-chrome.tsx`).
-- **Demo figures**: the widgets and panels in `main-story.tsx` show illustrative data and are labelled as samples. Swap them for real numbers or remove them.
-- **Copy**: services are limited to software development. Check the wording in `main-story.tsx` and the "Taking on new projects" status in the ending.
-- **Logo**: a vector (SVG) version would be sharper than the PNG.
+- `lib/projects.js`: the real projects. Each entry takes `title`, `client`, `year`, `url` and `image`. The 24 entries there now are placeholders with stock photos.
+- `lib/contact.js`: `EMAIL` and `BOOK_URL` at the top. The email is a placeholder; while `BOOK_URL` is empty the button writes an email instead.
+
+## Notes
+
+- Sizes are design pixels (`--u` in `tokens.css`), so the layout keeps its proportions at any width; the phone layout kicks in under 768 px.
+- The bust model is three.js's `Zaghetto.pcd`, loaded from the three.js repository; the fonts come from Google Fonts and jsDelivr; three.js comes from jsDelivr through the import map in `index.html`.
+- `favicon.svg`, `favicon-32.png` and `apple-touch-icon.png` are the mascot cat from the wordmark.
+- `window.__flittle.state()` and `window.__kin` are exposed for automated checks only.
