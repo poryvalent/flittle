@@ -20,6 +20,10 @@ Any static server works. Open it in Chrome, Edge or Safari: the cover's two back
 - `lib/projects.js`: the real projects. Each entry takes `title`, `client`, `year`, `url` and `image`. The 24 entries there now are placeholders with stock photos.
 - `lib/contact.js`: `EMAIL` and `BOOK_URL` at the top. The email is a placeholder; while `BOOK_URL` is empty the button writes an email instead.
 
+## Deploying
+
+The repo deploys on Vercel as plain static files. `vercel.json` sets the framework to "Other" (`framework: null`), which overrides the project's old Next.js preset, so there is no install or build step and the repo root is served as is. Vercel only deploys commits whose author is a member of the Vercel account that owns the project; a commit from anyone else shows up on GitHub as "Deployment was blocked" and the owner has to redeploy it or add that person to the team.
+
 ## Notes
 
 - Sizes are design pixels (`--u` in `tokens.css`), so the layout keeps its proportions at any width; the phone layout kicks in under 768 px.
