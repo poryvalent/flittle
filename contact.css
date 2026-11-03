@@ -1,0 +1,131 @@
+/* The last page of the sketchbook. The supplied Doodle Crew artwork, pared back to a hello. */
+.contact {
+  --connect-paper: #f6f4ee;
+  --connect-ink: #24231f;
+  --connect-accent: #e87955;
+  position: relative;
+  z-index: 3;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 108px clamp(20px, 4vw, 64px) 32px;
+  background: var(--connect-paper);
+  color: var(--connect-ink);
+  color-scheme: light;
+}
+.connect { width: 100%; max-width: 1200px; margin: auto; text-align: center; }
+.connect__world { position: relative; width: 100%; }
+.connect-scene { display: block; width: 100%; height: auto; overflow: visible; }
+.connect__fallback {
+  display: block; padding: 70px 0 30px;
+  font: 900 clamp(60px, 17vw, 240px)/1 "Inter Tight", Arial, sans-serif;
+  letter-spacing: -.045em;
+}
+.connect-wordmark { fill: var(--connect-ink); }
+.connect-letter, .connect-character, .connect-hop {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+.connect-ground, .connect-ground-details {
+  fill: none; stroke: var(--connect-ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+}
+.connect-ground-details { stroke-width: 1.7; }
+.connect-art {
+  fill: var(--connect-paper); stroke: var(--connect-ink); stroke-width: 2.5;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.connect-art .n { fill: none; }
+.connect-art .k { fill: var(--connect-ink); }
+.connect-art .a { fill: var(--connect-accent); }
+.connect-art .o { fill: #e8aa53; }
+.connect-art .thin { stroke-width: 1.5; }
+.connect-art .thick { stroke-width: 3.4; }
+.connect-art .connect-shadow { fill: var(--connect-ink); stroke: none; opacity: .12; }
+.connect-art .connect-glint { fill: var(--connect-paper); stroke: none; }
+.connect-hit { cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
+.connect-hit-area { fill: transparent; stroke: transparent; stroke-width: 2; }
+.connect-hit:focus-visible .connect-hit-area { stroke: var(--connect-ink); stroke-dasharray: 5 5; }
+.connect-doodle { transform-box: fill-box; transform-origin: center; }
+.connect__message { position: relative; z-index: 1; margin-top: -24px; }
+.connect__message h2 {
+  font-family: "Inter Tight", var(--font-text);
+  font-size: clamp(36px, 4.2vw, 58px);
+  font-weight: 500; line-height: 1.08; letter-spacing: -.045em;
+}
+.connect__message h2 > span { color: var(--connect-accent); }
+.connect__message > p {
+  margin-top: 16px; color: #68665f;
+  font-size: clamp(14px, 1.3vw, 17px); line-height: 1.6; letter-spacing: -.01em;
+}
+.connect__mail {
+  display: inline-flex; align-items: center; justify-content: center; gap: 14px;
+  min-height: 54px; max-width: 100%; margin-top: 26px; padding: 13px 22px;
+  border: 1.5px solid var(--connect-ink); border-radius: 999px;
+  background: var(--connect-ink); color: var(--connect-paper);
+  font-size: 15px; font-weight: 500; line-height: 1.3; letter-spacing: -.01em;
+  box-shadow: 0 4px 0 var(--connect-accent);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.connect__mail svg { width: 20px; height: 20px; flex-shrink: 0; }
+.connect__arrow { margin-left: 12px; transition: transform 180ms ease; }
+.connect__mail:focus-visible { outline: 2px solid var(--connect-ink); outline-offset: 7px; }
+.connect__mail:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--connect-accent); }
+.connect__copyright { display: block; margin-top: clamp(36px, 5vh, 64px); font-size: 11px; letter-spacing: .025em; color: #77746d; }
+.connect__bubble {
+  position: absolute; z-index: 2; transform: translate(-50%, -100%) rotate(-2deg);
+  max-width: calc(100% - 16px); width: max-content;
+  padding: 9px 14px; border: 1.5px solid var(--connect-ink); border-radius: 14px;
+  background: var(--connect-paper); box-shadow: 3px 3px 0 var(--connect-ink);
+  font-size: 13px; line-height: 1.4; font-weight: 500;
+  pointer-events: none;
+}
+.connect__bubble[hidden] { display: none; }
+.connect__bubble::after {
+  content: ""; position: absolute; bottom: -7px; left: calc(50% - 6px);
+  width: 11px; height: 11px; background: var(--connect-paper);
+  border-right: 1.5px solid var(--connect-ink); border-bottom: 1.5px solid var(--connect-ink); transform: rotate(45deg);
+}
+@media (hover: hover) and (pointer: fine) {
+  .connect__mail:hover { transform: translateY(-3px) rotate(-1deg); box-shadow: 0 7px 0 var(--connect-accent); }
+  .connect__mail:hover .connect__arrow { transform: translate(2px, -2px); }
+  .contact.has-arrived .connect-letter:hover { animation: connect-wiggle 600ms ease; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .contact.has-arrived .connect-letter { animation: connect-stamp 650ms cubic-bezier(.2,.8,.25,1.15) calc(80ms * var(--i)) both; }
+  .contact.has-arrived .connect-character { animation: connect-arrive 650ms cubic-bezier(.3,1.4,.5,1) calc(500ms + 110ms * var(--i)) both; }
+  .contact.has-arrived .connect-ground { stroke-dasharray: 1; animation: connect-draw 1000ms ease both; }
+  .contact.has-arrived .connect-doodle { animation: connect-drift 4s ease-in-out calc(-1s * var(--i)) infinite alternate; animation-play-state: paused; }
+  .contact.is-visible .connect-doodle { animation-play-state: running; }
+  .connect-hit.is-hopping .connect-hop { animation: connect-hop 600ms ease; }
+}
+@keyframes connect-stamp {
+  0% { opacity: 0; transform: translateY(-28px) scale(1.06); }
+  65% { opacity: 1; transform: translateY(2px) scale(1.02,.97); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes connect-arrive {
+  from { opacity: 0; transform: translateY(18px) scale(.85); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes connect-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes connect-drift { from { transform: translateY(0) rotate(-4deg); } to { transform: translateY(-9px) rotate(5deg); } }
+@keyframes connect-hop {
+  0%, 100% { transform: none; }
+  20% { transform: scale(1.08,.9); }
+  50% { transform: translateY(-22px) scale(.96,1.04); }
+  80% { transform: scale(1.05,.95); }
+}
+@keyframes connect-wiggle { 25% { transform: rotate(-3deg); } 65% { transform: rotate(2deg); } 100% { transform: none; } }
+@media (max-width: 767px) {
+  .contact { padding: 100px 16px 30px; }
+  .connect__world { width: calc(100% + 16px); margin-left: -8px; }
+  .connect__message { margin-top: 12px; }
+  .connect__message > p { max-width: 28ch; margin: 16px auto 0; }
+  .connect__copyright { margin-top: 48px; }
+  .connect__bubble { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact *, .contact *::before, .contact *::after { animation: none !important; transition: none !important; }
+}
