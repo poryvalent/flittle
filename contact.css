@@ -24,10 +24,32 @@
   letter-spacing: -.045em;
 }
 .connect-wordmark { fill: var(--connect-ink); }
-.connect-letter, .connect-character, .connect-hop {
+.connect-letter-enter, .connect-letter-motion, .connect-character, .connect-hop {
   transform-box: fill-box;
   transform-origin: center bottom;
 }
+.connect-letter { cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
+.connect-letter-target { fill: transparent; stroke: none; pointer-events: all; }
+.connect-letter:focus-visible .connect-letter-target { stroke: var(--connect-ink); stroke-width: 1.5; stroke-dasharray: 5 5; }
+.connect-letter-enter { pointer-events: none; }
+.connect-letter-motion { opacity: 1; }
+.connect-letter-ink { transition: fill 180ms ease; }
+.connect-letter:is(:hover, :focus-visible, .is-playing) .connect-letter-ink { fill: var(--connect-accent); }
+.connect-letter-echo { opacity: 0; }
+.connect-letter-echo--warm { fill: var(--connect-accent); }
+.connect-letter-echo--cool { fill: #62a8a0; }
+.connect-letter-flair { fill: none; stroke: var(--connect-accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.connect-letter-burst, .connect-letter-speed, .connect-letter-orbit { opacity: 0; }
+.connect-letter-orbit { fill: var(--connect-accent); stroke-width: 1.5; }
+.connect-letter[data-motion="spring"] { --letter-motion: connect-spring; --letter-duration: 1100ms; }
+.connect-letter[data-motion="pendulum"] { --letter-motion: connect-pendulum; --letter-duration: 1200ms; }
+.connect-letter[data-motion="jelly"] { --letter-motion: connect-jelly; --letter-duration: 1050ms; }
+.connect-letter[data-motion="twirl"] { --letter-motion: connect-twirl; --letter-duration: 1250ms; }
+.connect-letter[data-motion="rocket"] { --letter-motion: connect-rocket; --letter-duration: 1200ms; }
+.connect-letter[data-motion="glitch"] { --letter-motion: connect-glitch; --letter-duration: 850ms; }
+.connect-letter[data-motion="pop"] { --letter-motion: connect-pop; --letter-duration: 1000ms; }
+.connect-letter[data-motion="pendulum"] .connect-letter-motion { transform-origin: 18% 100%; }
+.connect-letter[data-motion="twirl"] .connect-letter-motion { transform-origin: 50% 50%; }
 .connect-ground, .connect-ground-details {
   fill: none; stroke: var(--connect-ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
 }
@@ -48,6 +70,7 @@
 .connect-hit-area { fill: transparent; stroke: transparent; stroke-width: 2; }
 .connect-hit:focus-visible .connect-hit-area { stroke: var(--connect-ink); stroke-dasharray: 5 5; }
 .connect-doodle { transform-box: fill-box; transform-origin: center; }
+.connect-doodles { pointer-events: none; }
 .connect__message { position: relative; z-index: 1; margin-top: -24px; }
 .connect__message h2 {
   font-family: "Inter Tight", var(--font-text);
@@ -88,12 +111,19 @@
   border-right: 1.5px solid var(--connect-ink); border-bottom: 1.5px solid var(--connect-ink); transform: rotate(45deg);
 }
 @media (hover: hover) and (pointer: fine) {
+  /* Only painted character artwork catches the mouse; exposed letter ink stays reachable. */
+  .connect-hit-area { pointer-events: none; }
   .connect__mail:hover { transform: translateY(-3px) rotate(-1deg); box-shadow: 0 7px 0 var(--connect-accent); }
   .connect__mail:hover .connect__arrow { transform: translate(2px, -2px); }
-  .contact.has-arrived .connect-letter:hover { animation: connect-wiggle 600ms ease; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .contact.has-arrived .connect-letter { animation: connect-stamp 650ms cubic-bezier(.2,.8,.25,1.15) calc(80ms * var(--i)) both; }
+  .contact.has-arrived .connect-letter-enter { animation: connect-stamp 650ms cubic-bezier(.2,.8,.25,1.15) calc(80ms * var(--i)) both; }
+  .connect-letter.is-playing .connect-letter-motion { animation: var(--letter-motion) var(--letter-duration) both; }
+  .connect-letter:is([data-motion="spring"], [data-motion="pop"]).is-playing .connect-letter-burst { animation: connect-burst var(--letter-duration) both; }
+  .connect-letter[data-motion="rocket"].is-playing .connect-letter-speed { animation: connect-speed var(--letter-duration) both; }
+  .connect-letter[data-motion="twirl"].is-playing .connect-letter-orbit { animation: connect-orbit var(--letter-duration) both; }
+  .connect-letter[data-motion="glitch"].is-playing .connect-letter-echo--warm { animation: connect-echo-warm var(--letter-duration) steps(1, end) both; }
+  .connect-letter[data-motion="glitch"].is-playing .connect-letter-echo--cool { animation: connect-echo-cool var(--letter-duration) steps(1, end) both; }
   .contact.has-arrived .connect-character { animation: connect-arrive 650ms cubic-bezier(.3,1.4,.5,1) calc(500ms + 110ms * var(--i)) both; }
   .contact.has-arrived .connect-ground { stroke-dasharray: 1; animation: connect-draw 1000ms ease both; }
   .contact.has-arrived .connect-doodle { animation: connect-drift 4s ease-in-out calc(-1s * var(--i)) infinite alternate; animation-play-state: paused; }
@@ -101,7 +131,7 @@
   .connect-hit.is-hopping .connect-hop { animation: connect-hop 600ms ease; }
 }
 @keyframes connect-stamp {
-  0% { opacity: 0; transform: translateY(-28px) scale(1.06); }
+  0% { opacity: 1; transform: translateY(-28px) scale(1.06); }
   65% { opacity: 1; transform: translateY(2px) scale(1.02,.97); }
   100% { opacity: 1; transform: none; }
 }
@@ -117,7 +147,91 @@
   50% { transform: translateY(-22px) scale(.96,1.04); }
   80% { transform: scale(1.05,.95); }
 }
-@keyframes connect-wiggle { 25% { transform: rotate(-3deg); } 65% { transform: rotate(2deg); } 100% { transform: none; } }
+/* All seven performances keep the main glyph opaque and return it to rest. */
+@keyframes connect-spring {
+  0%, 100% { transform: none; }
+  16% { transform: scale(1.18, .76); }
+  36% { transform: translateY(-52px) rotate(-9deg) scale(.9, 1.13); }
+  55% { transform: translateY(-58px) rotate(6deg); }
+  72% { transform: scale(1.16, .82); }
+  87% { transform: translateY(-12px) scale(.96, 1.04); }
+}
+@keyframes connect-pendulum {
+  0%, 100% { transform: none; }
+  22% { transform: rotate(-24deg); }
+  44% { transform: rotate(15deg); }
+  64% { transform: rotate(-10deg); }
+  81% { transform: rotate(5deg); }
+  93% { transform: rotate(-2deg); }
+}
+@keyframes connect-jelly {
+  0%, 100% { transform: none; }
+  18% { transform: scale(.64, 1.25) skewX(-9deg); }
+  38% { transform: scale(1.42, .72) skewX(13deg); }
+  57% { transform: scale(.8, 1.14) skewX(-8deg); }
+  75% { transform: scale(1.12, .92) skewX(4deg); }
+  90% { transform: scale(.97, 1.03); }
+}
+@keyframes connect-twirl {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(-18deg) scale(.95); }
+  52% { transform: translateY(-24px) rotate(195deg) scale(.84); }
+  79% { transform: rotate(374deg) scale(1.04); }
+  91% { transform: rotate(354deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes connect-rocket {
+  0%, 100% { transform: none; }
+  10% { transform: translateX(-3px) scale(1.04, .94); }
+  19% { transform: translateX(3px) scale(1.07, .88); }
+  38% { transform: translate(12px, -62px) rotate(9deg) scale(.94, 1.07); }
+  53% { transform: translate(15px, -66px) rotate(5deg); }
+  76% { transform: translateY(1px) scale(1.1, .86); }
+  89% { transform: translateY(-9px) scale(.97, 1.03); }
+}
+@keyframes connect-glitch {
+  0%, 100% { transform: none; }
+  12% { transform: translateX(-11px) skewX(7deg); }
+  24% { transform: translate(14px, -5px) skewX(-9deg); }
+  36% { transform: translateX(-7px) skewY(5deg); }
+  49% { transform: translate(9px, -2px) skewX(-5deg); }
+  64% { transform: translateX(-4px) skewY(-3deg); }
+  80% { transform: translateX(2px); }
+}
+@keyframes connect-pop {
+  0%, 100% { transform: none; }
+  20% { transform: scale(.76, 1.12); }
+  43% { transform: scale(1.2, .83) rotate(-5deg); }
+  62% { transform: scale(.91, 1.1) rotate(4deg); }
+  79% { transform: scale(1.05, .96) rotate(-2deg); }
+  93% { transform: scale(.99, 1.01); }
+}
+@keyframes connect-burst {
+  0%, 61%, 100% { opacity: 0; transform: scale(.6); }
+  73% { opacity: 1; transform: scale(1); }
+  93% { opacity: 0; transform: scale(1.5); }
+}
+@keyframes connect-speed {
+  0%, 20%, 80%, 100% { opacity: 0; transform: translateY(0) scaleY(.4); }
+  35% { opacity: 1; transform: translateY(-28px) scaleY(1.3); }
+  60% { opacity: .7; transform: translateY(-12px) scaleY(.8); }
+}
+@keyframes connect-orbit {
+  0%, 100% { opacity: 0; transform: translateY(-100px) rotate(0deg); }
+  20% { opacity: 1; transform: translateY(-100px) rotate(-30deg); }
+  75% { opacity: 1; transform: translateY(-100px) rotate(290deg); }
+  95% { opacity: 0; transform: translateY(-100px) rotate(370deg); }
+}
+@keyframes connect-echo-warm {
+  0%, 80%, 100% { opacity: 0; transform: none; }
+  12%, 36%, 64% { opacity: .65; transform: translate(12px, -3px); }
+  24%, 49% { opacity: .4; transform: translate(-10px, 3px); }
+}
+@keyframes connect-echo-cool {
+  0%, 80%, 100% { opacity: 0; transform: none; }
+  12%, 36%, 64% { opacity: .55; transform: translate(-12px, 3px); }
+  24%, 49% { opacity: .4; transform: translate(10px, -3px); }
+}
 @media (max-width: 767px) {
   .contact { padding: 100px 16px 30px; }
   .connect__world { width: calc(100% + 16px); margin-left: -8px; }
