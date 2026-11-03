@@ -17,6 +17,8 @@ import { initFrame } from './lib/frame.js';
 import { initOrbit } from './lib/orbit.js';
 import { initHold } from './lib/hold.js';
 import { initContact } from './lib/contact.js';
+import { initFocus } from './lib/focus.js';
+import { PROJECTS } from './lib/projects.js';
 
 // The cover counts as "up" until this share of it has scrolled away; then the story header appears.
 const COVER_SHARE = 0.6;
@@ -61,7 +63,9 @@ const PREV_INSET = 0.14;
 const work = document.querySelector('.portfolio');
 const contact = document.querySelector('.contact');
 const approach = document.querySelector('#approach .screen__col') || document.querySelector('#approach');
-const orbit = initOrbit(work, { cloud });
+let focus = null;
+const orbit = initOrbit(work, { cloud, onOpen: (project, mesh) => focus?.open(project, mesh) });
+focus = initFocus(document.querySelector('[data-focus]'), { orbit, total: PROJECTS.length });
 const hold = initHold(work, {
   onWheel: (dy) => orbit?.kick(dy),
   next: contact,
@@ -72,4 +76,4 @@ const hold = initHold(work, {
 const invite = initContact(contact);
 
 // Exposed for debugging and automated checks only.
-window.__kin = { cloud, scroll, orbit, hold, invite };
+window.__kin = { cloud, scroll, orbit, hold, invite, focus };

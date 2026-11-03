@@ -35,7 +35,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Inter+Tight:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Inter+Tight:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="hero.css">
@@ -208,13 +208,13 @@
   </section>
 
   <section class="portfolio" id="work" data-screen="work" aria-labelledby="work-title">
-    <canvas class="portfolio__canvas" data-orbit aria-label="Orbit of project cards; spin it with the wheel, drag to turn"></canvas>
+    <canvas class="portfolio__canvas" data-orbit aria-label="Orbit of project cards; spin it with the wheel, drag to turn, click a card to read about the project"></canvas>
     <div class="portfolio__ui" data-reveal>
       <p class="screen__eyebrow"><span class="badge" data-sq><i class="badge__dot" aria-hidden="true"></i>Selected work</span><span>Portfolio</span></p>
-      <h2 class="screen__title" id="work-title">Projects we have shipped. <span class="screen__sub">Spin the wheel to turn it, drag to orbit, click to open.</span></h2>
+      <h2 class="screen__title" id="work-title">Projects we have shipped. <span class="screen__sub">Wheel to spin, drag to orbit, click a card for its story.</span></h2>
     </div>
     <div class="portfolio__caption" data-orbit-caption aria-live="polite"><span class="portfolio__name"></span><span class="portfolio__meta"></span></div>
-    <p class="portfolio__hint"><span><span data-count="24">24</span> projects · 2022 – 2026</span><span class="portfolio__spin">Your wheel turns the orbit</span></p>
+    <p class="portfolio__hint"><span><span data-count="4">4</span> projects · click a card for the story</span><span class="portfolio__spin">Your wheel turns the orbit</span></p>
     <div class="portfolio__nav" role="group" aria-label="Leave the portfolio">
       <button class="portfolio__arrow" type="button" data-prev aria-label="Back up to our approach">
         <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></i>
@@ -258,6 +258,18 @@
     </div>
   </section>
 </main>
+
+<!-- the project focus: the full-screen takeover that opens when a card on the orbit is clicked -->
+<div class="focus" data-focus hidden role="dialog" aria-modal="true" aria-label="Project">
+  <div class="focus__fog" aria-hidden="true"></div>
+  <div class="focus__vignette" aria-hidden="true"></div>
+  <p class="focus__brand" aria-hidden="true">flittle</p>
+  <button class="focus__close" type="button" data-focus-close data-text="Close">Close</button>
+  <p class="focus__loader" data-focus-loader aria-hidden="true" hidden>+--------+</p>
+  <div class="focus__col" data-focus-col></div>
+  <p class="focus__meta" data-focus-meta></p>
+  <div class="focus__grain" aria-hidden="true"></div>
+</div>
 
 <div class="stage" data-stage aria-hidden="true">
   <div class="frame-head" data-frame-head>

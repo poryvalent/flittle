@@ -485,3 +485,97 @@ img { display: block; max-width: 100%; }
   .contact__ping i:first-child, .portfolio__arrow svg { animation: none; }
   .contact__title, .contact__l > span, .contact__ring i, .contact__ring svg, .contact__line, .contact__avail, .contact__foot, .contact__done, .contact__done > *, .contact__pill, .portfolio__spin { transition-duration: 200ms; transition-delay: 0s; }
 }
+
+/* ---- the project focus: a full-screen takeover in the manner of a project page on igloo.inc ---- */
+html.has-focus { overflow: hidden; }
+.focus { position: fixed; inset: 0; z-index: 20; font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; color: #d6dbe5; }
+.focus[hidden] { display: none; }
+/* fog: two drifting pools of grey-blue and a darkening toward the bottom, over the orbit */
+.focus__fog {
+  position: absolute; inset: -22%; pointer-events: none;
+  background:
+    radial-gradient(52% 48% at 70% 36%, rgba(52, 62, 84, .5), transparent 70%),
+    radial-gradient(46% 54% at 78% 74%, rgba(34, 42, 60, .55), transparent 70%),
+    linear-gradient(180deg, rgba(12, 14, 20, .22), rgba(6, 7, 10, .55));
+  opacity: 0; transition: opacity 900ms var(--ease-out);
+  animation: focus-fog 22s ease-in-out infinite alternate;
+}
+@keyframes focus-fog { from { transform: translate(-2%, -1.5%) scale(1); } to { transform: translate(2%, 2%) scale(1.07); } }
+.focus__vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 92% 82% at 46% 48%, transparent 46%, rgba(6, 7, 10, .88) 100%); opacity: 0; transition: opacity 900ms var(--ease-out); }
+/* grain: a noise tile that jumps every frame-ish */
+.focus__grain {
+  position: absolute; inset: 0; pointer-events: none; opacity: .22; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  animation: focus-grain .8s steps(6) infinite;
+}
+@keyframes focus-grain { to { background-position: 220px 160px; } }
+.focus.is-open .focus__fog, .focus.is-open .focus__vignette { opacity: 1; }
+/* the chrome */
+.focus__brand {
+  position: absolute; left: var(--gutter); top: var(--s32); z-index: 2; margin: 0;
+  font-family: "Fredoka", var(--font-text); font-weight: 600; font-size: calc(var(--u) * 34); letter-spacing: -.01em; color: #fff;
+  text-shadow: 0 0 calc(var(--u) * 18) rgba(255, 255, 255, .55), 0 0 calc(var(--u) * 2) rgba(255, 255, 255, .8);
+  opacity: 0; transform: translateY(-8px); transition: opacity 700ms var(--ease-out) 150ms, transform 700ms var(--ease-out) 150ms;
+}
+.focus__close {
+  position: absolute; right: var(--gutter); top: var(--s32); z-index: 2; display: inline-flex; align-items: center; justify-content: center;
+  height: calc(var(--u) * 44); padding: 0 var(--s24); border: 0; background: none; color: #e6eaf2;
+  font: inherit; font-size: calc(var(--u) * 13); letter-spacing: .04em; text-shadow: 0 0 10px rgba(230, 234, 242, .35);
+  opacity: 0; transform: translateY(-8px); transition: opacity 700ms var(--ease-out) 150ms, transform 700ms var(--ease-out) 150ms, color var(--dur-ui) var(--ease-out);
+}
+/* the bracket corners around the close: eight short strokes, two per corner */
+.focus__close::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; transition: inset var(--dur-ui) var(--ease-out);
+  --k: linear-gradient(currentColor, currentColor);
+  background:
+    var(--k) top left / 11px 1.5px no-repeat, var(--k) top left / 1.5px 11px no-repeat,
+    var(--k) top right / 11px 1.5px no-repeat, var(--k) top right / 1.5px 11px no-repeat,
+    var(--k) bottom left / 11px 1.5px no-repeat, var(--k) bottom left / 1.5px 11px no-repeat,
+    var(--k) bottom right / 11px 1.5px no-repeat, var(--k) bottom right / 1.5px 11px no-repeat;
+}
+@media (hover: hover) and (pointer: fine) { .focus__close:hover { color: #fff; } .focus__close:hover::before { inset: -4px; } }
+/* the page's own chrome steps aside while a project is in focus */
+html.has-focus .hd, html.has-focus .portfolio__ui, html.has-focus .portfolio__hint, html.has-focus .portfolio__nav, html.has-focus .portfolio__caption { opacity: 0 !important; pointer-events: none; transition: opacity 500ms var(--ease-out); }
+.focus__meta {
+  position: absolute; left: var(--gutter); bottom: var(--s32); z-index: 2; margin: 0;
+  font-size: calc(var(--u) * 12); letter-spacing: .04em; color: #9aa2b2; text-shadow: 0 0 8px rgba(154, 162, 178, .3);
+  opacity: 0; transition: opacity 700ms var(--ease-out) 400ms;
+}
+.focus.is-open .focus__brand, .focus.is-open .focus__close, .focus.is-open .focus__meta { opacity: 1; transform: none; }
+/* the loader and the column */
+.focus__loader { position: absolute; left: 50%; top: 50%; z-index: 2; transform: translate(-50%, -50%); margin: 0; font-size: calc(var(--u) * 14); letter-spacing: .1em; color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, .6); }
+.focus__loader[hidden] { display: none; }
+.focus__col {
+  position: absolute; left: 54%; top: 50%; z-index: 2; width: min(calc(var(--u) * 560), 42vw); max-height: 80vh; overflow: auto; transform: translateY(-50%);
+  font-size: calc(var(--u) * 13.5); line-height: 1.62; letter-spacing: .01em; text-shadow: 0 0 10px rgba(214, 219, 229, .22);
+  scrollbar-width: thin; scrollbar-color: rgba(214, 219, 229, .2) transparent;
+  opacity: 0; transition: opacity 400ms var(--ease-out);
+}
+.focus__col.is-in { opacity: 1; }
+.focus__col > * { margin: 0 0 1.6em; white-space: normal; }
+.focus .w { display: inline-block; white-space: nowrap; }
+.focus__label { color: #8d95a6; }
+.focus__p { color: #d6dbe5; }
+/* one span per character, so the ripple can lift and light each one */
+.focus .c { display: inline-block; white-space: pre; will-change: transform; transition: color 180ms linear, text-shadow 180ms linear; }
+.focus .c.is-space { display: inline; white-space: normal; will-change: auto; }
+.focus .c.is-hidden { visibility: hidden; }
+/* the ripple's touch: a quiet brightening with a hint of the accent, nothing more */
+.focus .c.is-warm { color: #e4e9f1; text-shadow: 0 0 6px rgba(214, 219, 229, .25); }
+.focus .c.is-hot { color: #f4f7fc; text-shadow: 0 0 8px rgba(143, 216, 255, .45); }
+.focus__label .c.is-hot { color: #c9d2e2; }
+.focus__links { display: flex; flex-wrap: wrap; gap: .4em 1.8em; }
+.focus__link { color: #eef1f6; white-space: nowrap; transition: color var(--dur-ui) var(--ease-out), text-shadow var(--dur-ui) var(--ease-out); }
+.focus__link i { font-style: normal; }
+@media (hover: hover) and (pointer: fine) { .focus__link:hover { color: #fff; text-shadow: 0 0 14px rgba(255, 255, 255, .7); } }
+@media (max-width: 767px) {
+  .focus__brand { top: var(--s24); font-size: 28px; }
+  .focus__close { top: var(--s24); right: var(--gutter); }
+  .focus__col { left: var(--gutter); right: var(--gutter); width: auto; top: auto; bottom: 56px; max-height: 56vh; transform: none; font-size: 12px; line-height: 1.55; }
+  .focus__meta { bottom: var(--s24); right: var(--gutter); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .focus__fog, .focus__grain { animation: none; }
+  .focus__fog, .focus__vignette, .focus__brand, .focus__close, .focus__meta, .focus__col { transition-duration: 200ms; transition-delay: 0s; }
+}

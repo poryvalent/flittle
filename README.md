@@ -12,12 +12,12 @@ Any static server works. Open it in Chrome, Edge or Safari: the cover's two back
 
 1. **Cover** (`index.html` → `.ink-hero`, `hero.css`, `lib/ink.js`): the flittle wordmark with the mascot cat, grey at rest; moving the pointer reveals the colour and the video through ink blobs.
 2. **Story** (`style.css`, `tokens.css`, `lib/cloud.js`, `cursor.js`, `liquid.js`, `scroll.js`, `frame.js`, `reveal.js`, `veil.js`, `tone.js`): the point-cloud bust that follows the pointer, the pinned zoom-out with the flying widgets, then the Services and Approach screens.
-3. **Work** (`lib/orbit.js`, `lib/hold.js`, `lib/projects.js`): the bust bursts into dust and its surviving points become the stars of the orbit, a sphere with the project cards around it. The page freezes on this section: the wheel spins the orbit, drag turns it, hover reads a project, click opens it, and the two arrows in the pill at the bottom leave it.
+3. **Work** (`lib/orbit.js`, `lib/hold.js`, `lib/focus.js`, `lib/projects.js`): the bust bursts into dust and its surviving points become the stars of the orbit, a sphere with the project cards around it (the projects repeat around the ring until it is full). The page freezes on this section: the wheel spins the orbit, drag turns it, hover reads a project, and a click brings the project into focus: the card flies out to hang in front of the camera under fog and grain while its story decodes in, terminal style, with the links as "[name] ↗". Close, Escape or the backdrop send it back. The two arrows in the pill at the bottom leave the section.
 4. **Contact** (`lib/contact.js`): "Let's work together"; clicking it brings in the booking button.
 
 ## Things to fill in
 
-- `lib/projects.js`: the real projects. Each entry takes `title`, `client`, `year`, `url` and `image`. The 24 entries there now are placeholders with stock photos.
+- `lib/projects.js`: the projects. Each entry takes `title`, `kicker`, `summary`, `body` (paragraphs), `tags`, `links` and `image` (a screenshot in `assets/work/`). Edit the words there; they are the focus column's copy.
 - `lib/contact.js`: `EMAIL` and `BOOK_URL` at the top. The email is a placeholder; while `BOOK_URL` is empty the button writes an email instead.
 
 ## Deploying
