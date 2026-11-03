@@ -4,7 +4,7 @@
 // header clock, the onboarding reveals, the bottom veil, the page tone, the bust with its scroll
 // and pointer choreography, the orbit with its hold, and the contact section. The story header
 // stays hidden under the cover.
-import { initInkHero } from './lib/ink.js';
+import { invite } from './lib/boot.js';
 import { initSquircles } from './lib/squircle.js';
 import { initClock } from './lib/header.js';
 import { initReveal } from './lib/reveal.js';
@@ -16,16 +16,12 @@ import { initCursor } from './lib/cursor.js';
 import { initFrame } from './lib/frame.js';
 import { initOrbit } from './lib/orbit.js';
 import { initHold } from './lib/hold.js';
-import { initContact } from './lib/contact.js';
 import { initFocus } from './lib/focus.js';
 import { PROJECTS } from './lib/projects.js';
-
-// The cover counts as "up" until this share of it has scrolled away; then the story header appears.
-const COVER_SHARE = 0.6;
+import { siteAssetsReady } from './lib/preload.js';
 
 const root = document.documentElement;
 
-initInkHero();
 initSquircles();
 initClock();
 initReveal();
@@ -33,19 +29,8 @@ initVeil();
 const tone = initTone();
 
 // ---- the cover state ----
-const cover = document.querySelector('.ink-hero');
-let coverUp = null, coverQueued = false;
-function updateCover() {
-  coverQueued = false;
-  const up = window.scrollY < cover.offsetHeight * COVER_SHARE;
-  if (up === coverUp) return;
-  coverUp = up;
-  root.classList.toggle('is-cover', up);
-  tone.cover(up);
-}
-window.addEventListener('scroll', () => { if (!coverQueued) { coverQueued = true; requestAnimationFrame(updateCover); } }, { passive: true });
-window.addEventListener('resize', updateCover);
-updateCover();
+tone.cover(root.classList.contains('is-cover'));
+document.addEventListener('flittle:cover', event => tone.cover(event.detail.up));
 
 // ---- the bust ----
 const stage = document.querySelector('[data-stage]');
@@ -53,8 +38,11 @@ const cloud = createCloud(stage);
 const scroll = createScroll();
 initFrame(cloud, { onGround: (g) => tone.set(g) });
 
-cloud.load(MODEL_URL)
-  .then(() => { initCursor(cloud, scroll); })
+const sceneReady = cloud.load(MODEL_URL)
+  .then(async () => {
+    initCursor(cloud, scroll);
+    await cloud.warmup();
+  })
   .catch((err) => { console.error('The bust could not be loaded.', err); });
 
 // ---- the portfolio orbit, the hold that gives it the wheel, and the closing invitation ----
@@ -73,7 +61,11 @@ const hold = initHold(work, {
   nextButton: work.querySelector('[data-next]'),
   prevButton: work.querySelector('[data-prev]'),
 });
-const invite = initContact(contact);
 
 // Exposed for debugging and automated checks only.
 window.__kin = { cloud, scroll, orbit, hold, invite, focus };
+
+// Start loading and compiling immediately, behind the arcade entrance.
+Promise.allSettled([sceneReady, orbit.ready, siteAssetsReady]).then(() => {
+  window.__flittleLoader?.markSiteReady();
+});

@@ -136,7 +136,7 @@ img { display: block; max-width: 100%; }
 .is-hero-out .hero__note { opacity: 0; visibility: hidden; transition-delay: 0s, 760ms; }
 
 /* ---- OS section: the pinned zoom-out and its widgets ---- */
-.os { position: relative; z-index: 3; height: 420vh; }
+.os { position: relative; z-index: 3; height: 320vh; }
 .os__pin { position: sticky; top: 0; height: 100vh; overflow: clip; pointer-events: none; }
 
 .ow {
@@ -175,7 +175,7 @@ img { display: block; max-width: 100%; }
 .minibars { display: flex; align-items: flex-end; gap: calc(var(--u) * 6); height: calc(var(--u) * 84); }
 .minibars i { flex: 1; height: calc(var(--h) * 1%); border-radius: calc(var(--u) * 3); background: var(--glow); transform-origin: bottom; transform: scaleY(.08); transition: transform 300ms var(--ease-out); }
 .minibars i.now { background: var(--ember); }
-.minibars.is-grown i { transform: none; transition: transform 900ms var(--ease-expo); }
+.minibars.is-grown i { transform: none; transition: transform 550ms var(--ease-expo); }
 .minibars.is-grown i:nth-child(2) { transition-delay: 40ms; }
 .minibars.is-grown i:nth-child(3) { transition-delay: 80ms; }
 .minibars.is-grown i:nth-child(4) { transition-delay: 120ms; }
@@ -419,10 +419,12 @@ html.has-focus { overflow: hidden; }
 /* the chrome */
 .focus__brand {
   position: absolute; left: var(--gutter); top: var(--s32); z-index: 2; margin: 0;
-  font-family: "Fredoka", var(--font-text); font-weight: 600; font-size: calc(var(--u) * 34); letter-spacing: -.01em; color: #fff;
+  font-family: "Fredoka", var(--font-text); font-weight: 600; font-size: calc(var(--u) * 34); letter-spacing: 0; color: #fff;
+  line-height: 1; white-space: nowrap; font-kerning: none; font-variant-ligatures: none;
   text-shadow: 0 0 calc(var(--u) * 18) rgba(255, 255, 255, .55), 0 0 calc(var(--u) * 2) rgba(255, 255, 255, .8);
   opacity: 0; transform: translateY(-8px); transition: opacity 700ms var(--ease-out) 150ms, transform 700ms var(--ease-out) 150ms;
 }
+.focus__mascot { display: inline-block; width: .8em; height: .82em; margin: 0 .03em; vertical-align: -.016em; filter: drop-shadow(0 0 4px rgba(183, 224, 255, .3)); }
 .focus__close {
   position: absolute; right: var(--gutter); top: var(--s32); z-index: 2; display: inline-flex; align-items: center; justify-content: center;
   height: calc(var(--u) * 44); padding: 0 var(--s24); border: 0; background: none; color: #e6eaf2;
