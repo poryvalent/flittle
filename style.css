@@ -385,9 +385,24 @@ img { display: block; max-width: 100%; }
   .portfolio__arrow, .portfolio__arrow[data-next] { padding: 0 var(--s4); }
   .portfolio__arrow span { display: none; }
 }
+@media (pointer: coarse), (max-width: 767px) {
+  /* The large 100vh viewport can extend beneath mobile browser chrome. The
+     small viewport keeps both exits reachable even with the toolbar open. */
+  .portfolio { height: 100svh; }
+  .portfolio__nav {
+    bottom: max(18px, calc(env(safe-area-inset-bottom) + 12px)); z-index: 3;
+    max-width: calc(100% - 32px); padding: 4px; gap: 4px;
+    background: rgba(16,20,27,.96); -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  .portfolio__arrow, .portfolio__arrow[data-next] { min-width: 48px; height: 48px; padding: 0 6px; font-size: 12px; }
+  .portfolio__arrow[data-next] { padding-left: 14px; color: var(--ink-1); }
+  .portfolio__arrow[data-next] span { display: inline; }
+  .portfolio__arrow i { width: 36px; height: 36px; }
+  .portfolio__arrow:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .portfolio__arrow svg { animation: none; }
+  .portfolio__arrow svg, .portfolio__arrow[data-next] svg { animation: none; }
   .portfolio__spin { transition-duration: 200ms; transition-delay: 0s; }
 }
 

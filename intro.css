@@ -81,7 +81,7 @@
   white-space: nowrap; touch-action: manipulation;
   transition: background 150ms ease, box-shadow 150ms ease, translate 150ms ease;
 }
-.is-ready:is([data-intro-phase="idle"], [data-intro-phase="launching"], [data-intro-phase="playing"], [data-intro-phase="switching"], [data-intro-phase="complete"]) .intro-game__skip { display: flex; }
+.is-ready:is([data-intro-phase="playing"], [data-intro-phase="switching"], [data-intro-phase="complete"]) .intro-game__skip { display: flex; }
 .intro-game__skip span { font-size: 28px; line-height: 1; }
 .intro-game__skip:hover:not(:disabled) { background: #dcff9e; translate: 0 -2px; box-shadow: 0 8px 0 #3c5423, 0 14px 34px rgba(0,0,0,.24); }
 .intro-game__skip:active:not(:disabled) { translate: 0 4px; box-shadow: 0 2px 0 #3c5423, 0 6px 20px rgba(0,0,0,.2); }
