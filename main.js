@@ -36,7 +36,7 @@ document.addEventListener('flittle:cover', event => tone.cover(event.detail.up))
 const stage = document.querySelector('[data-stage]');
 const cloud = createCloud(stage);
 const scroll = createScroll();
-initFrame(cloud, { onGround: (g) => tone.set(g) });
+initFrame(cloud, { scroll, onGround: (g) => tone.set(g) });
 
 const sceneReady = cloud.load(MODEL_URL)
   .then(async () => {
