@@ -1,5 +1,5 @@
 /* The flittle opening cover. Charcoal lettering and the original colour mascot on off-white;
-   the original liquid reveal follows the pointer, with tiny sweets on the hovered artwork.
+   the liquid trail reveals a pastel cupcake texture inside the lettering and mascot.
    Everything is scoped to .ink-hero so none of it leaks into the Kin OS sections that follow, and
    the cover sits above the fixed bust stage until it has scrolled away. */
 .ink-hero {
@@ -27,7 +27,6 @@
 .ink-hero .baseline { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
 
 .ink-hero #reveal { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
-.ink-hero .hero-treats { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
 
 /* corner UI */
 .ink-hero .ui { position: absolute; z-index: 4; font-size: 13px; line-height: 1.25; }
