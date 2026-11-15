@@ -255,7 +255,7 @@
 <link rel="preload" href="assets/scene/zaghetto.pcd" as="fetch" crossorigin="anonymous">
 </head>
 <body>
-<div class="site-loader" data-loader data-intro-phase="loading" data-arcade-game="tetris" role="dialog" aria-modal="true" aria-label="Flittle arcade" tabindex="-1">
+<div class="site-loader" data-loader data-intro-phase="loading" data-arcade-game="dodge" role="dialog" aria-modal="true" aria-label="Flittle arcade" tabindex="-1">
   <button class="intro-begin" type="button" data-begin aria-label="Begin your journey" aria-describedby="intro-anywhere-hint" hidden disabled>
     <span class="intro-begin__text" aria-hidden="true"><img src="assets/begin-journey.svg" alt="" width="103" height="7"></span>
   </button>
@@ -273,9 +273,9 @@
   </div>
   <div class="arcade-selector" aria-label="Choose a minigame">
     <span class="arcade-selector__count" data-arcade-index>01 / 05</span>
-    <strong data-arcade-title>LETTER DROP</strong>
+    <strong data-arcade-title>STAR DODGE</strong>
     <div class="arcade-selector__dots">
-      <button type="button" data-select-game="0" aria-label="Play Letter Drop" aria-pressed="true"></button>
+      <button type="button" data-select-game="0" aria-label="Play Star Dodge" aria-pressed="true"></button>
       <button type="button" data-select-game="1" aria-label="Play Flittle Flight" aria-pressed="false"></button>
       <button type="button" data-select-game="2" aria-label="Play Brick Break" aria-pressed="false"></button>
       <button type="button" data-select-game="3" aria-label="Play Cosmic Flittle" aria-pressed="false"></button>
@@ -285,22 +285,20 @@
   <button class="arcade-nav arcade-nav--prev" type="button" data-arcade-prev aria-label="Previous game"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2h4v4h-4v4h-4v4h4v4h4v4h-4v-4h-4v-4H6v-4h4V6h4z" fill="currentColor"/></svg><span class="arcade-nav__label">PREV</span></button>
   <button class="arcade-nav arcade-nav--next" type="button" data-arcade-next aria-label="Next game"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h4v4h4v4h4v4h-4v4h-4v4H6v-4h4v-4h4v-4h-4V6H6z" fill="currentColor"/></svg><span class="arcade-nav__label">NEXT</span></button>
   <div class="intro-game__hud">
-    <div class="intro-game__identity"><span class="intro-game__name">FLITTLE<span class="intro-game__dot">.</span></span><span class="intro-game__eyebrow">PLAY YOUR WAY</span><span class="intro-game__progress" data-game-progress>01 / 07 <span>F</span></span></div>
+    <div class="intro-game__identity"><span class="intro-game__name">FLITTLE<span class="intro-game__dot">.</span></span><span class="intro-game__eyebrow">PLAY YOUR WAY</span><span class="intro-game__progress" data-game-progress>SCORE 0000 · 3 LIVES</span></div>
     <div class="intro-game__legend" aria-label="Game controls">
       <span class="intro-game__legend-title">MAKE YOUR MOVE</span>
       <span><kbd>←</kbd><kbd>→</kbd><i>/</i><kbd>A</kbd><kbd>D</kbd><em>move</em></span>
-      <span><kbd>↑</kbd><i>/</i><kbd>W</kbd><em>rotate</em></span>
-      <span><kbd>↓</kbd><i>/</i><kbd>S</kbd><em>fall faster</em></span>
-      <span><kbd>SHIFT</kbd><i>/</i><kbd>SPACE</kbd><em>drop</em></span>
+      <span><kbd>DRAG</kbd><em>move</em></span>
+      <span><kbd>SHIFT</kbd><i>/</i><kbd>SPACE</kbd><em>shield dash</em></span>
     </div>
   </div>
-  <p class="intro-game__instruction">Seven letters. Make them land.</p>
+  <p class="intro-game__instruction">Dodge the blocks. Catch the stars. Five waves to shine.</p>
   <button class="intro-game__skip" type="button" data-skip-game aria-label="Enter website without playing" disabled>ENTER WEBSITE <span aria-hidden="true">&rarr;</span></button>
   <div class="intro-game__touch" role="group" aria-label="Touch game controls">
     <button type="button" data-game-action="left" aria-label="Move left">←</button>
-    <button type="button" data-game-action="rotate" aria-label="Rotate letter">↻</button>
+    <button type="button" data-game-action="primary" aria-label="Shield dash">DASH ✦</button>
     <button type="button" data-game-action="right" aria-label="Move right">→</button>
-    <button type="button" data-game-action="drop" aria-label="Drop letter">DROP <span>↓</span></button>
   </div>
   <div class="intro-game__result" role="status" aria-live="polite">
     <span class="intro-game__eyebrow intro-game__complete">ROUND COMPLETE</span>
