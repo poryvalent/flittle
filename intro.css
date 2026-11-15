@@ -1,4 +1,4 @@
-/* Load the site first, then invite the visitor into the game. */
+/* The local invitation opens first; the website prepares behind the arcade. */
 .is-loading .site-loader {
   --arcade-safe-top: 200px;
   --arcade-safe-bottom: 125px;
@@ -30,6 +30,63 @@
 .intro-begin[hidden] { display: none; }
 .intro-begin__text { display: block; width: 100%; }
 .intro-begin__text img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+.intro-anywhere {
+  position: absolute; z-index: 3; left: 24px; right: 24px; bottom: max(56px, calc(env(safe-area-inset-bottom) + 32px));
+  text-align: center; pointer-events: none; color: #858d7b;
+  font: 400 9px/1.6 "JetBrains Mono", "Courier New", monospace; letter-spacing: .2em;
+  transition: opacity 180ms ease;
+}
+.intro-anywhere__touch { display: none; }
+.intro-pointer {
+  position: absolute; z-index: 8; top: 0; left: 0; display: flex; align-items: center; gap: 12px;
+  opacity: 0; pointer-events: none; will-change: transform;
+  font: 400 9px/1.5 "JetBrains Mono", "Courier New", monospace; letter-spacing: .05em; color: #d7e4c7;
+}
+.intro-pointer__label { white-space: nowrap; }
+.intro-pointer__label b { color: #c9ff73; margin-left: 6px; font-size: 14px; font-weight: 400; }
+.intro-pointer__cross { position: relative; width: 13px; height: 13px; transform: rotate(calc(var(--pointer-energy, 0) * 90deg)); }
+.intro-pointer__cross i { position: absolute; width: 4px; height: 4px; background: #c9ff73; }
+.intro-pointer__cross i:nth-child(2) { right: 0; background: #81cfff; }
+.intro-pointer__cross i:nth-child(3) { right: 0; bottom: 0; background: #baa0ff; }
+.intro-pointer__cross i:nth-child(4) { bottom: 0; background: #78e6da; }
+.intro-pointer__pixels { position: absolute; z-index: 7; inset: 0; pointer-events: none; }
+.intro-pointer__pixels i { position: absolute; top: 0; left: 0; width: 4px; height: 4px; opacity: 0; }
+[data-intro-phase="idle"] { cursor: crosshair !important; }
+[data-intro-phase="idle"].has-invitation-pointer .intro-pointer { opacity: 1; }
+[data-intro-phase="idle"].has-invitation-pointer .intro-anywhere { opacity: .25; }
+.site-loader:not([data-intro-phase="idle"]) .intro-anywhere { display: none; }
+.site-loader:not([data-intro-phase="idle"]):not([data-intro-phase="launching"]) .intro-pointer__pixels { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .intro-anywhere__desktop, .intro-pointer { display: none; }
+  .intro-anywhere__touch { display: inline; }
+}
+.arcade-loading-status {
+  position: absolute; z-index: 5; top: calc(50% + 96px); left: 50%; transform: translateX(-50%);
+  width: min(520px, calc(100% - 48px)); color: #d7e4c7; opacity: 0;
+  font: 400 10px/1.6 "JetBrains Mono", "Courier New", monospace; letter-spacing: .06em;
+  transition: opacity 300ms ease;
+}
+.arcade-loading-status[hidden], .arcade-loading-status button[hidden] { display: none !important; }
+.has-exit-bar .arcade-loading-status { opacity: 1; }
+.arcade-loading-status__fallback { display: none; position: absolute; top: -110px; width: 100%; height: 28px; padding: 4px; border: 1px solid #46513c; background: #12170f; }
+.has-exit-fallback .arcade-loading-status__fallback { display: block; }
+.has-exit-fallback .intro-game__canvas { visibility: hidden; }
+.arcade-loading-status__fallback i { display: block; height: 100%; width: calc(var(--site-progress, 0) * 100%); background: repeating-linear-gradient(90deg, #c9ff73 0 12px, #12170f 12px 15px); }
+.arcade-loading-status__row { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+[data-exit-percent] { color: #c9ff73; font-variant-numeric: tabular-nums; }
+.arcade-loading-status p { color: #848f82; margin: 12px 0 0; font-size: 10px; letter-spacing: 0; }
+.arcade-loading-status button {
+  margin-top: 20px; padding: 12px 16px; min-height: 44px; border: 1px solid #506638;
+  background: #162010; color: #c9ff73; font: inherit; letter-spacing: .08em; cursor: pointer;
+}
+.arcade-loading-status button span { margin-left: 16px; }
+.has-exit-error .arcade-loading-status p { color: #d4bd9b; }
+@media (max-width: 480px) { .arcade-loading-status { font-size: 9px; } }
+@media (max-height: 500px) {
+  .arcade-loading-status { top: calc(50% + 75px); font-size: 9px; }
+  .arcade-loading-status p { margin-top: 6px; }
+  .arcade-loading-status button { margin-top: 8px; padding: 8px 14px; }
+}
 /* The small variant remains unobtrusive if entry ever needs to wait again. */
 .intro-loading {
   position: absolute; z-index: 4; left: 50%; bottom: max(30px, env(safe-area-inset-bottom));
@@ -153,7 +210,7 @@
 [data-intro-phase="exiting"] .intro-game__instruction,
 [data-intro-phase="exiting"] .intro-game__touch,
 [data-intro-phase="exiting"] .intro-game__fallback { display: none; }
-[data-intro-phase="exiting"] .intro-game__result { opacity: 0; translate: 0 -8px; pointer-events: none; }
+[data-intro-phase="exiting"] .intro-game__result { display: none; }
 .site-loader.is-leaving { opacity: 0; pointer-events: none; transition-duration: 450ms; }
 @keyframes game-result-in { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
 @media (max-width: 640px) {

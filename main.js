@@ -19,9 +19,11 @@ import { initHold } from './lib/hold.js';
 import { initFocus } from './lib/focus.js';
 import { PROJECTS } from './lib/projects.js';
 import { siteAssetsReady } from './lib/preload.js';
+import { siteReadiness, completeSiteTask, failSiteTask, trackSiteTask } from './lib/site-readiness.js';
 
 const root = document.documentElement;
 
+try {
 initSquircles();
 initClock();
 initReveal();
@@ -38,12 +40,14 @@ const cloud = createCloud(stage);
 const scroll = createScroll();
 initFrame(cloud, { scroll, onGround: (g) => tone.set(g) });
 
-const sceneReady = cloud.load(MODEL_URL)
+const sceneReady = trackSiteTask('model', () => cloud.load(MODEL_URL))
   .then(async () => {
-    initCursor(cloud, scroll);
-    await cloud.warmup();
-  })
-  .catch((err) => { console.error('The bust could not be loaded.', err); });
+    await trackSiteTask('effects', async () => {
+      initCursor(cloud, scroll);
+      await cloud.warmup();
+    });
+  });
+sceneReady.catch(() => {});
 
 // ---- the portfolio orbit, the hold that gives it the wheel, and the closing invitation ----
 // The up arrow lands on the approach screen with its column this far down the viewport.
@@ -53,6 +57,14 @@ const contact = document.querySelector('.contact');
 const approach = document.querySelector('#approach .screen__col') || document.querySelector('#approach');
 let focus = null;
 const orbit = initOrbit(work, { cloud, onOpen: (project, mesh) => focus?.open(project, mesh) });
+const orbitReady = trackSiteTask('orbit', async () => {
+  if (!orbit) throw new Error('The project galaxy could not initialize. Please retry loading the website.');
+  await orbit.ready;
+  // TextureLoader's error callback settles orbit.ready. A decoded source must
+  // also reach every actual card material before the galaxy is ready to show.
+  if (orbit.cards.some(card => !card.material.map)) throw new Error('The project images could not finish preparing. Please retry loading the website.');
+});
+orbitReady.catch(() => {});
 focus = initFocus(document.querySelector('[data-focus]'), { orbit, total: PROJECTS.length });
 const hold = initHold(work, {
   onWheel: (dy) => orbit?.kick(dy),
@@ -64,8 +76,13 @@ const hold = initHold(work, {
 
 // Exposed for debugging and automated checks only.
 window.__kin = { cloud, scroll, orbit, hold, invite, focus };
+completeSiteTask('modules');
 
 // Start loading and compiling immediately, behind the arcade entrance.
-Promise.allSettled([sceneReady, orbit.ready, siteAssetsReady]).then(() => {
-  window.__flittleLoader?.markSiteReady();
-});
+Promise.all([sceneReady, orbitReady, siteAssetsReady]).then(() => {
+  if (siteReadiness.getState().ready) window.__flittleLoader?.markSiteReady();
+}).catch(error => { console.error('The website is not ready yet.', error); });
+} catch (error) {
+  failSiteTask('modules', error);
+  console.error('The website could not initialize.', error);
+}

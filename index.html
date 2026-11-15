@@ -29,7 +29,7 @@
     root.classList.add('js', 'is-loading', 'is-cover');
     // A new visit always begins at the colour cover, never a restored story offset.
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    // Keep the entrance usable even if a local module cannot be downloaded.
+    // The local arcade can open while the heavy website prepares behind it.
     var loader = window.__flittleLoader = { released: false, ready: false, coverReady: false, siteReady: false, requested: false, exitComplete: false, entering: false, started: false, complete: false, gameAttached: false };
     loader.resetHome = function () {
       if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
@@ -113,7 +113,7 @@
       if (firstLink) firstLink.focus({ preventScroll: true });
     };
     loader.enter = function () {
-      if (!loader.ready || !loader.requested || !loader.exitComplete || loader.entering || loader.released) return;
+      if (!loader.coverReady || !loader.siteReady || !loader.requested || !loader.exitComplete || loader.entering || loader.released) return;
       loader.entering = true;
       loader.restorePosition();
       // The hero remains laid out behind the entrance. Refresh before revealing it.
@@ -127,7 +127,7 @@
       }); });
     };
     loader.checkReady = function () {
-      if (loader.released || !loader.coverReady || !loader.siteReady) return;
+      if (loader.released || !loader.coverReady) return;
       loader.ready = true;
       loader.updateLoading();
       clearTimeout(loader.watchdog);
@@ -145,7 +145,7 @@
       var next = document.querySelector('[data-enter-site]');
       if (next) next.disabled = true;
       loader.updateLoading();
-      // Let the played blocks land on the floor before revealing the prepared cover.
+      // The game becomes a loading bar; its promise waits for real site readiness.
       var departure;
       try { departure = loader.playExit ? loader.playExit() : null; } catch (e) {}
       Promise.resolve(departure).catch(function () {}).then(function () {
@@ -178,7 +178,7 @@
       loader.resetHome();
       loader.updateLoading();
       loader.lockSite();
-      button.addEventListener('click', function () {
+      loader.begin = function () {
         if (loader.started || !loader.ready) return;
         loader.started = true;
         button.disabled = true;
@@ -188,6 +188,15 @@
           if (!loader.gameAttached) loader.finishGame(0, true);
         }, 5000);
         document.dispatchEvent(new Event('flittle:begin'));
+      };
+      button.addEventListener('click', loader.begin);
+      overlay.addEventListener('click', function (event) {
+        if (event.button === 0 && overlay.dataset.introPhase === 'idle') loader.begin();
+      });
+      overlay.addEventListener('keydown', function (event) {
+        if (overlay.dataset.introPhase !== 'idle' || !['Enter', ' '].includes(event.key)) return;
+        event.preventDefault();
+        loader.begin();
       });
       document.querySelector('[data-enter-site]').addEventListener('click', loader.requestEntry);
       document.querySelector('[data-skip-game]').addEventListener('click', function () {
@@ -202,9 +211,10 @@
       overlay.focus({ preventScroll: true });
       if (loader.ready) loader.markReady();
     };
-    // Failed graphics or modules yield a complete static cover, still by choice.
+    // A local cover failure can use its static artwork. Heavy scene readiness is
+    // tracked separately and is never fabricated by this invitation watchdog.
     loader.watchdog = setTimeout(function () {
-      loader.coverReady = loader.siteReady = true;
+      loader.coverReady = true;
       loader.checkReady();
     }, 18000);
     try {
@@ -229,7 +239,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link id="site-fonts" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Inter+Tight:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link id="site-fonts" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Inter+Tight:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" media="print" onload="this.dataset.fontLoad='loaded';this.media='all'" onerror="this.dataset.fontLoad='failed'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Inter+Tight:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="style.css">
@@ -246,11 +256,21 @@
 </head>
 <body>
 <div class="site-loader" data-loader data-intro-phase="loading" data-arcade-game="tetris" role="dialog" aria-modal="true" aria-label="Flittle arcade" tabindex="-1">
-  <button class="intro-begin" type="button" data-begin aria-label="Begin your journey" hidden disabled>
+  <button class="intro-begin" type="button" data-begin aria-label="Begin your journey" aria-describedby="intro-anywhere-hint" hidden disabled>
     <span class="intro-begin__text" aria-hidden="true"><img src="assets/begin-journey.svg" alt="" width="103" height="7"></span>
   </button>
+  <span class="intro-anywhere" id="intro-anywhere-hint"><span class="intro-anywhere__desktop">CLICK ANYWHERE TO BEGIN</span><span class="intro-anywhere__touch">TAP ANYWHERE TO BEGIN</span></span>
+  <div class="intro-pointer" data-intro-pointer aria-hidden="true"><span class="intro-pointer__cross"><i></i><i></i><i></i><i></i></span><span class="intro-pointer__label">CLICK ANYWHERE <b>↗</b></span></div>
+  <div class="intro-pointer__pixels" data-intro-sparks aria-hidden="true"></div>
   <div class="arcade-transition" aria-hidden="true"><span class="arcade-transition__label">A LITTLE PLAY BEFORE THE POSSIBILITIES</span><div class="arcade-transition__pixels" data-transition-pixels></div></div>
   <canvas class="intro-game__canvas" data-game-canvas aria-hidden="true"></canvas>
+  <div class="arcade-loading-status" data-exit-status hidden>
+    <div class="arcade-loading-status__fallback" aria-hidden="true"><i></i></div>
+    <div class="arcade-loading-status__row"><span data-exit-label>PREPARING YOUR WORLD</span><span data-exit-percent>0%</span></div>
+    <div class="intro-game__sr" data-exit-progress role="progressbar" aria-label="Preparing the website" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+    <p data-exit-message role="status" aria-live="polite">A little play. A world of possibilities.</p>
+    <button type="button" data-exit-retry hidden>RETRY LOADING <span aria-hidden="true">↻</span></button>
+  </div>
   <div class="arcade-selector" aria-label="Choose a minigame">
     <span class="arcade-selector__count" data-arcade-index>01 / 05</span>
     <strong data-arcade-title>LETTER DROP</strong>
