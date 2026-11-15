@@ -1,5 +1,5 @@
 /* The flittle opening cover. Charcoal lettering and the original colour mascot on off-white;
-   the original liquid reveal follows the pointer, with neon shine on the hovered artwork.
+   the original liquid reveal follows the pointer, with a negative lens on the hovered artwork.
    Everything is scoped to .ink-hero so none of it leaks into the Kin OS sections that follow, and
    the cover sits above the fixed bust stage until it has scrolled away. */
 .ink-hero {
