@@ -1,9 +1,9 @@
-/* The flittle opening cover. Charcoal lettering and the original colour mascot on off-white;
-   the liquid trail reveals a pastel cupcake texture inside the lettering and mascot.
+/* The flittle opening cover. Charcoal lettering and the original colour mascot on warm cream;
+   playful static doodles frame the word, with vivid liquid ink responding to the pointer.
    Everything is scoped to .ink-hero so none of it leaks into the Kin OS sections that follow, and
    the cover sits above the fixed bust stage until it has scrolled away. */
 .ink-hero {
-  --ink-bg: #f4f4f2; --ink-fg: #0d0d0d; --ink-muted: #8a8a88; --ink-word: #24282c;
+  --ink-bg: #fffaf0; --ink-fg: #0d0d0d; --ink-muted: #8a8279; --ink-word: #24282c;
   position: relative; z-index: 5; isolation: isolate;
   width: 100%; height: 100vh; height: 100svh; overflow: hidden;
   background: var(--ink-bg); color: var(--ink-fg);
@@ -11,6 +11,28 @@
   -webkit-font-smoothing: antialiased; cursor: none;
 }
 .ink-hero .bg-video { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* A little illustrated playground: static, beneath the artwork and reveal canvas. */
+.ink-hero .cover-garden { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.ink-hero .cover-garden::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, #d9cdbb 1px, transparent 1.2px);
+  background-size: 30px 30px; opacity: .5;
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 34%, transparent 67%, #000);
+  mask-image: linear-gradient(to bottom, #000, transparent 34%, transparent 67%, #000);
+}
+.ink-hero .cover-garden__paths { position: absolute; inset: 0; width: 100%; height: 100%; color: #d7c9b6; opacity: .55; }
+.ink-hero .cover-doodle {
+  position: absolute; display: block; width: var(--doodle-size); height: auto;
+  overflow: visible; transform: rotate(var(--doodle-turn, 0deg));
+  color: #37383c; stroke-width: 2.3; stroke-linejoin: round; stroke-linecap: round;
+}
+.ink-hero .cover-doodle--flower { --doodle-size: clamp(58px, 5.5vw, 88px); --doodle-turn: -13deg; left: 27%; top: 13%; }
+.ink-hero .cover-doodle--planet { --doodle-size: clamp(82px, 7.5vw, 120px); --doodle-turn: -15deg; left: 62%; top: 8%; }
+.ink-hero .cover-doodle--blue-star { --doodle-size: clamp(38px, 3.5vw, 56px); --doodle-turn: 15deg; right: 12%; top: 25%; }
+.ink-hero .cover-doodle--cloud { --doodle-size: clamp(88px, 8.3vw, 134px); --doodle-turn: -8deg; left: 13%; bottom: 12%; }
+.ink-hero .cover-doodle--heart { --doodle-size: clamp(48px, 4.5vw, 72px); --doodle-turn: 12deg; right: 21%; bottom: 12%; }
+.ink-hero .cover-doodle--gold-star { --doodle-size: clamp(42px, 4vw, 64px); --doodle-turn: -11deg; left: 44%; bottom: 7%; }
 
 /* wordmark: "fli" + cat + "le"; the complete colour artwork also works without WebGL. */
 .ink-hero .word {
@@ -60,12 +82,29 @@
 .ink-cursor.big { width: 34px; height: 34px; margin: -17px 0 0 -17px; }
 
 @media (max-width: 640px) {
+  .ink-hero .cover-garden::before { background-size: 24px 24px; opacity: .4; }
+  .ink-hero .cover-garden__paths { display: none; }
+  .ink-hero .cover-doodle--flower { --doodle-size: 66px; left: 11%; top: 24%; }
+  .ink-hero .cover-doodle--planet { --doodle-size: 88px; left: auto; right: 12%; top: 20%; }
+  .ink-hero .cover-doodle--blue-star { --doodle-size: 30px; right: 8%; top: 36%; }
+  .ink-hero .cover-doodle--cloud { --doodle-size: 96px; left: 10%; bottom: 25%; }
+  .ink-hero .cover-doodle--heart { --doodle-size: 54px; right: 13%; bottom: 22%; }
+  .ink-hero .cover-doodle--gold-star { --doodle-size: 46px; left: 42%; bottom: 10%; }
   .ink-hero .top-left { top: 18px; left: 16px; max-width: 200px; }
   .ink-hero .nav { top: 18px; right: 16px; }
   .ink-hero .bottom-left { left: 16px; }
   .ink-hero .bottom-right { right: 16px; }
   .ink-hero, .ink-hero .pill, .ink-hero .nav a { cursor: auto; }
   .ink-cursor { display: none; }
+}
+
+@media (max-height: 560px) and (min-width: 641px) {
+  .ink-hero .cover-doodle--flower { --doodle-size: 46px; top: 9%; left: 33%; }
+  .ink-hero .cover-doodle--planet { --doodle-size: 66px; top: 4%; }
+  .ink-hero .cover-doodle--blue-star { display: none; }
+  .ink-hero .cover-doodle--cloud { --doodle-size: 74px; bottom: 8%; }
+  .ink-hero .cover-doodle--heart { --doodle-size: 42px; bottom: 9%; }
+  .ink-hero .cover-doodle--gold-star { --doodle-size: 34px; bottom: 5%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
