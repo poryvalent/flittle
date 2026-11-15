@@ -45,9 +45,8 @@
   font: 400 10px/1.5 "JetBrains Mono", "Courier New", monospace; letter-spacing: .05em; color: #d7e4c7;
 }
 .intro-pointer__label { white-space: nowrap; padding: 7px 0; border-bottom: 1px solid #3c4c30; }
-.intro-pointer__mascot { width: 38px; height: 38px; image-rendering: pixelated; flex: none; }
 .intro-pointer__label b { color: #c9ff73; margin-left: 6px; font-size: 14px; font-weight: 400; }
-.intro-pointer__cross { position: absolute; left: 33px; top: -3px; width: 8px; height: 8px; transform: rotate(calc(var(--pointer-energy, 0) * 90deg)); }
+.intro-pointer__cross { position: relative; width: 8px; height: 8px; flex: none; transform: rotate(calc(var(--pointer-energy, 0) * 90deg)); }
 .intro-pointer__cross i { position: absolute; width: 2px; height: 2px; background: #c9ff73; }
 .intro-pointer__cross i:nth-child(2) { right: 0; background: #81cfff; }
 .intro-pointer__cross i:nth-child(3) { right: 0; bottom: 0; background: #baa0ff; }

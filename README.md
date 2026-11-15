@@ -10,7 +10,7 @@ Any static server works. Open it in Chrome, Edge or Safari: the cover's two back
 
 ## What is on the page
 
-1. **Entrance, arcade and cover** (`index.html`, `intro.css`, `lib/intro.js`, `lib/intro-invitation.js`, `lib/intro-title.js`, `lib/arcade-runtime.js`, `lib/arcade-art.js`, `lib/arcade-dodge.js`, `lib/arcade-flight.js`, `lib/arcade-action.js`): neon blocks animate on black while the local cover prepares. The pixel “Begin your journey” invitation accepts a click or tap anywhere, or Enter/Space. Its actual title pixels glow and gently spring away from the pointer without disappearing. A small mascot follows the pointer beside the click hint and leaves a fading pixel trail; touch screens show a fixed tap hint. The invitation shrinks into a brief tile curtain and opens a five-game arcade built with local Canvas 2D. Heavy website assets and GPU effects continue preparing in the background.
+1. **Entrance, arcade and cover** (`index.html`, `intro.css`, `lib/intro.js`, `lib/intro-invitation.js`, `lib/intro-title.js`, `lib/arcade-runtime.js`, `lib/arcade-art.js`, `lib/arcade-dodge.js`, `lib/arcade-flight.js`, `lib/arcade-action.js`): neon blocks animate on black while the local cover prepares. The pixel “Begin your journey” invitation accepts a click or tap anywhere, or Enter/Space. Its actual title pixels glow and gently spring away from the pointer without disappearing. A simple click hint follows the pointer with a fading pixel trail; touch screens show a fixed tap hint. The invitation shrinks into a brief tile curtain and opens a five-game arcade built with local Canvas 2D. Heavy website assets and GPU effects continue preparing in the background.
 
    | Game | Controls |
    | --- | --- |
