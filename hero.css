@@ -1,5 +1,5 @@
-/* The flittle opening cover. An off-white screen with the black-and-white wordmark; the pointer
-   leaves gooey ink blobs that reveal the ink video, the white letters and the full-colour cat.
+/* The flittle opening cover. Charcoal lettering and the original colour mascot on off-white;
+   the pointer paints a luminous liquid reveal without obscuring the wordmark.
    Everything is scoped to .ink-hero so none of it leaks into the Kin OS sections that follow, and
    the cover sits above the fixed bust stage until it has scrolled away. */
 .ink-hero {
@@ -12,7 +12,7 @@
 }
 .ink-hero .bg-video { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
-/* wordmark: "fli" + cat + "le"; the black & white version lives in the DOM */
+/* wordmark: "fli" + cat + "le"; the complete colour artwork also works without WebGL. */
 .ink-hero .word {
   position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); margin: 0; text-align: center;
   font-family: "Fredoka", "Inter Tight", system-ui, sans-serif; font-weight: 600; letter-spacing: 0;
@@ -23,7 +23,7 @@
 .ink-hero .word .w { display: inline-block; width: max-content; }
 .ink-hero .word .t { display: inline; }
 .ink-hero .word--base { color: var(--ink-word); z-index: 1; }
-.ink-hero .word .cat { display: inline-block; width: .8em; height: .82em; margin: 0 .03em; vertical-align: -.016em; filter: grayscale(1) brightness(.86); -webkit-user-drag: none; }  /* JS refines these safe first-paint proportions from the font metrics. */
+.ink-hero .word .cat { display: inline-block; width: .8em; height: .82em; margin: 0 .03em; vertical-align: -.016em; -webkit-user-drag: none; }  /* JS refines these safe first-paint proportions from the font metrics. */
 .ink-hero .baseline { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
 
 .ink-hero #reveal { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
@@ -66,4 +66,8 @@
   .ink-hero .bottom-right { right: 16px; }
   .ink-hero, .ink-hero .pill, .ink-hero .nav a { cursor: auto; }
   .ink-cursor { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-cursor, .ink-hero .pill, .ink-hero .nav a, .ink-hero .nav li i { transition: none; }
 }
