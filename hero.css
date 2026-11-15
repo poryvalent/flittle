@@ -1,5 +1,5 @@
 /* The flittle opening cover. Charcoal lettering and the original colour mascot on warm cream;
-   playful static doodles frame the word, with vivid liquid ink responding to the pointer.
+   gently drifting doodles frame the word, with vivid liquid ink responding to the pointer.
    Everything is scoped to .ink-hero so none of it leaks into the Kin OS sections that follow, and
    the cover sits above the fixed bust stage until it has scrolled away. */
 .ink-hero {
@@ -12,7 +12,8 @@
 }
 .ink-hero .bg-video { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
-/* A little illustrated playground: static, beneath the artwork and reveal canvas. */
+/* A little illustrated playground, beneath the artwork and reveal canvas.
+   The hero lifecycle resumes these transform-only animations while the cover is visible. */
 .ink-hero .cover-garden { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
 .ink-hero .cover-garden::before {
   content: ''; position: absolute; inset: 0;
@@ -26,13 +27,35 @@
   position: absolute; display: block; width: var(--doodle-size); height: auto;
   overflow: visible; transform: rotate(var(--doodle-turn, 0deg));
   color: #37383c; stroke-width: 2.3; stroke-linejoin: round; stroke-linecap: round;
+  transform-origin: 50% 50%;
+  animation: cover-doodle-drift var(--doodle-period, 13s) ease-in-out var(--doodle-delay, 0s) infinite;
+  animation-play-state: paused;
 }
+.ink-hero.is-garden-active .cover-doodle { animation-play-state: running; }
+.ink-hero .cover-doodle:nth-of-type(3n) { --doodle-period: 15.3s; --doodle-delay: -5.1s; }
+.ink-hero .cover-doodle:nth-of-type(3n + 1) { --doodle-period: 12.7s; --doodle-delay: -8.4s; }
+.ink-hero .cover-doodle:nth-of-type(3n + 2) { --doodle-period: 14.1s; --doodle-delay: -1.9s; }
 .ink-hero .cover-doodle--flower { --doodle-size: clamp(58px, 5.5vw, 88px); --doodle-turn: -13deg; left: 27%; top: 13%; }
 .ink-hero .cover-doodle--planet { --doodle-size: clamp(82px, 7.5vw, 120px); --doodle-turn: -15deg; left: 62%; top: 8%; }
 .ink-hero .cover-doodle--blue-star { --doodle-size: clamp(38px, 3.5vw, 56px); --doodle-turn: 15deg; right: 12%; top: 25%; }
 .ink-hero .cover-doodle--cloud { --doodle-size: clamp(88px, 8.3vw, 134px); --doodle-turn: -8deg; left: 13%; bottom: 12%; }
 .ink-hero .cover-doodle--heart { --doodle-size: clamp(48px, 4.5vw, 72px); --doodle-turn: 12deg; right: 21%; bottom: 12%; }
 .ink-hero .cover-doodle--gold-star { --doodle-size: clamp(42px, 4vw, 64px); --doodle-turn: -11deg; left: 44%; bottom: 7%; }
+.ink-hero .cover-doodle--cherries { --doodle-size: clamp(36px, 4vw, 58px); --doodle-turn: 11deg; left: 10%; top: 21%; }
+.ink-hero .cover-doodle--butterfly { --doodle-size: clamp(40px, 4vw, 58px); --doodle-turn: -17deg; right: 28%; top: 22%; }
+.ink-hero .cover-doodle--sun { --doodle-size: clamp(34px, 3.3vw, 48px); --doodle-turn: 8deg; left: 31%; bottom: 17%; }
+.ink-hero .cover-doodle--comet { --doodle-size: clamp(46px, 4.7vw, 68px); --doodle-turn: -12deg; right: 6%; bottom: 15%; }
+
+@keyframes cover-doodle-drift {
+  0%, 100% { transform: translate(0, 0) rotate(var(--doodle-turn, 0deg)); }
+  25% { transform: translate(2px, -5px) rotate(calc(var(--doodle-turn, 0deg) + 2deg)); }
+  52% { transform: translate(-2px, -2px) rotate(calc(var(--doodle-turn, 0deg) - 1deg)); }
+  60%, 74% { transform: translate(0, -3px) rotate(var(--doodle-turn, 0deg)); }
+  63% { transform: translate(0, -3px) rotate(calc(var(--doodle-turn, 0deg) - 4deg)); }
+  66% { transform: translate(1px, -3px) rotate(calc(var(--doodle-turn, 0deg) + 3deg)); }
+  69% { transform: translate(-1px, -3px) rotate(calc(var(--doodle-turn, 0deg) - 2deg)); }
+  88% { transform: translate(1px, 2px) rotate(calc(var(--doodle-turn, 0deg) + 1deg)); }
+}
 
 /* wordmark: "fli" + cat + "le"; the complete colour artwork also works without WebGL. */
 .ink-hero .word {
@@ -90,12 +113,20 @@
   .ink-hero .cover-doodle--cloud { --doodle-size: 96px; left: 10%; bottom: 25%; }
   .ink-hero .cover-doodle--heart { --doodle-size: 54px; right: 13%; bottom: 22%; }
   .ink-hero .cover-doodle--gold-star { --doodle-size: 46px; left: 42%; bottom: 10%; }
+  .ink-hero .cover-doodle--cherries { --doodle-size: 37px; left: 44%; top: 31%; }
+  .ink-hero .cover-doodle--butterfly { --doodle-size: 42px; left: 43%; right: auto; top: auto; bottom: 29%; }
+  .ink-hero .cover-doodle--sun { --doodle-size: 32px; left: 11%; bottom: 10%; }
+  .ink-hero .cover-doodle--comet { --doodle-size: 44px; right: 10%; bottom: 8%; }
   .ink-hero .top-left { top: 18px; left: 16px; max-width: 200px; }
   .ink-hero .nav { top: 18px; right: 16px; }
   .ink-hero .bottom-left { left: 16px; }
   .ink-hero .bottom-right { right: 16px; }
   .ink-hero, .ink-hero .pill, .ink-hero .nav a { cursor: auto; }
   .ink-cursor { display: none; }
+}
+
+@media (max-width: 640px) and (max-height: 640px) {
+  .ink-hero .cover-doodle--planet { --doodle-size: 72px; top: max(152px, 27%); }
 }
 
 @media (max-height: 560px) and (min-width: 641px) {
@@ -105,8 +136,13 @@
   .ink-hero .cover-doodle--cloud { --doodle-size: 74px; bottom: 8%; }
   .ink-hero .cover-doodle--heart { --doodle-size: 42px; bottom: 9%; }
   .ink-hero .cover-doodle--gold-star { --doodle-size: 34px; bottom: 5%; }
+  .ink-hero .cover-doodle--cherries { --doodle-size: 32px; left: 46%; top: 3%; }
+  .ink-hero .cover-doodle--butterfly { display: none; }
+  .ink-hero .cover-doodle--sun { --doodle-size: 28px; left: 28%; bottom: 8%; }
+  .ink-hero .cover-doodle--comet { --doodle-size: 36px; bottom: calc(9% + 10px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ink-hero .cover-doodle { animation: none; }
   .ink-cursor, .ink-hero .pill, .ink-hero .nav a, .ink-hero .nav li i { transition: none; }
 }
