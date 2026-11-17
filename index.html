@@ -9,7 +9,7 @@
   /* Keep the unfinished cover out of the first paint, even if modules are slow. */
   .site-loader { display: none; }
   .site-loader[hidden] { display: none !important; }
-  html.is-loading { overflow: hidden; scrollbar-gutter: auto; }
+  html.is-loading { overflow: hidden; scrollbar-gutter: stable; }
   .is-loading .site-loader { position: fixed; z-index: 100; inset: 0; width: 100vw; display: grid; place-items: center; background: #000; color: #f1f3ee; opacity: 1; }
   .is-loading .hd, .is-loading .ink-cursor { visibility: hidden; }
   .js:not(.is-hero-ready) #wordBase, .js:not(.is-hero-ready) #reveal { visibility: hidden; }
@@ -123,8 +123,17 @@
         loader.restorePosition();
         loader.showHero();
         var overlay = document.querySelector('[data-loader]');
-        if (overlay) overlay.classList.add('is-leaving');
-        setTimeout(loader.release, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 260);
+        function fadeIntoSite() {
+          if (overlay) overlay.classList.add('is-leaving');
+          var revealMs = overlay ? parseFloat(getComputedStyle(overlay).getPropertyValue('--arcade-reveal-duration')) || 620 : 0;
+          setTimeout(loader.release, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : revealMs + 30);
+        }
+        // The final sprite becomes the real, measured homepage mascot. Missing
+        // optional effects always keep a plain fade into the prepared page.
+        var reveal;
+        try { reveal = loader.revealSite ? loader.revealSite() : null; } catch (e) {}
+        if (reveal && typeof reveal.then === 'function') Promise.resolve(reveal).then(loader.release, loader.release);
+        else fadeIntoSite();
       }); });
     };
     loader.checkReady = function () {
@@ -249,7 +258,9 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="hero.css">
 <link rel="stylesheet" href="contact.css">
-<link rel="stylesheet" href="intro.css">
+<link rel="stylesheet" href="intro.css?v=mascot-handoff-1">
+<link rel="stylesheet" href="arcade-motion.css">
+<link rel="stylesheet" href="portfolio-mobile.css">
 <script type="importmap">
 { "imports": {
     "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
@@ -614,7 +625,7 @@
 </div>
 
 <script>window.__flittleLoader.mount();</script>
-<script type="module" src="lib/intro.js"></script>
+<script type="module" src="lib/intro.js?v=mascot-handoff-1"></script>
 <script type="module" src="lib/boot.js"></script>
 <script type="module" src="main.js"></script>
 </body>

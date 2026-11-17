@@ -1,0 +1,163 @@
+/* One brief pixel portal connects the invitation to the arcade.
+   Tile coordinates come from the existing 8 x 4 transition grid. */
+.arcade-transition {
+  overflow: hidden;
+  isolation: isolate;
+}
+.arcade-transition::before,
+.arcade-transition::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: 56vw;
+  height: 44vh;
+  border: 1px solid #78e6da;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.04);
+  box-shadow: inset 0 0 0 5px rgba(120,230,218,.035), 0 0 0 5px rgba(120,230,218,.035);
+}
+.arcade-transition::after {
+  width: 62vw;
+  height: 50vh;
+  border-color: #baa0ff;
+  box-shadow: none;
+}
+.arcade-transition__pixels { z-index: 1; }
+.arcade-transition .arcade-transition__pixels i {
+  --gate-color: #c9ff73;
+  --gate-fill: #273520;
+  color: var(--gate-color);
+  border: 1px solid currentColor;
+  background: linear-gradient(145deg, rgba(255,255,255,.12), transparent 58%), var(--gate-fill);
+  box-shadow: inset 0 2px rgba(255,255,255,.12), inset -2px -2px rgba(0,0,0,.35);
+  transform-origin: center;
+}
+.arcade-transition__pixels i:nth-child(4n + 2) { --gate-color: #78e6da; --gate-fill: #16332f; }
+.arcade-transition__pixels i:nth-child(4n + 3) { --gate-color: #81cfff; --gate-fill: #1a2b3c; }
+.arcade-transition__pixels i:nth-child(4n) { --gate-color: #baa0ff; --gate-fill: #2b2340; }
+.arcade-transition__label {
+  z-index: 2;
+  top: calc(50% + max(62px, 10vh));
+  color: #cee8bc;
+  font-size: 8px;
+  line-height: 1.6;
+  letter-spacing: .18em;
+}
+
+[data-intro-phase="launching"] .intro-begin {
+  animation: arcade-title-fold 340ms cubic-bezier(.5,0,.7,1) both;
+}
+[data-intro-phase="launching"] .intro-pixel-field {
+  transition: opacity 230ms ease-out;
+}
+[data-intro-phase="launching"] .arcade-transition::before {
+  animation: arcade-gate-open 830ms cubic-bezier(.3,.05,.4,1) 30ms both;
+}
+[data-intro-phase="launching"] .arcade-transition::after {
+  animation: arcade-gate-echo 750ms cubic-bezier(.3,.05,.4,1) 110ms both;
+}
+[data-intro-phase="launching"] .arcade-transition__pixels i {
+  /* 760 + 30 + the longest radial delay (95.2) = 885.2 ms. */
+  animation: arcade-pixel-launch 760ms linear both;
+  animation-delay: calc(30ms + var(--tile-delay, 0ms));
+}
+[data-intro-phase="launching"] .arcade-transition__label {
+  animation: arcade-gate-label 780ms ease both;
+}
+
+@keyframes arcade-title-fold {
+  0% { opacity: 1; transform: scale(1, 1); }
+  28% { opacity: .96; transform: scale(1.025, .94); }
+  68% { opacity: .65; transform: scale(.3, .36); }
+  100% { opacity: 0; transform: scale(.035, .08); }
+}
+@keyframes arcade-pixel-launch {
+  0% {
+    opacity: 0;
+    transform: translate(calc(var(--tile-x, 0) * -3vw), calc(var(--tile-y, 0) * -5vh)) scale(.08);
+    animation-timing-function: cubic-bezier(.16,.75,.28,1);
+  }
+  16% {
+    opacity: .65;
+    transform: translate(calc(var(--tile-x, 0) * -7vw), calc(var(--tile-y, 0) * -12vh)) scale(.13);
+    animation-timing-function: cubic-bezier(.4,0,.2,1);
+  }
+  43% {
+    opacity: .95;
+    transform: translate(calc(var(--tile-x, 0) * -10.7vw), calc(var(--tile-y, 0) * -21.5vh)) scale(.18);
+    animation-timing-function: ease-out;
+  }
+  56% {
+    opacity: .95;
+    transform: translate(calc(var(--tile-x, 0) * -10.9vw), calc(var(--tile-y, 0) * -21.9vh)) scale(.16);
+    animation-timing-function: cubic-bezier(.7,0,.9,.4);
+  }
+  85% { opacity: .8; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--tile-x, 0) * 115vw), calc(var(--tile-y, 0) * 115vh)) scale(.65) rotate(calc(var(--tile-x, 0) * 9deg));
+  }
+}
+@keyframes arcade-gate-open {
+  0%, 10% { opacity: 0; transform: translate(-50%, -50%) scale(.04); }
+  32% { opacity: .48; transform: translate(-50%, -50%) scale(.25); }
+  49% { opacity: .95; transform: translate(-50%, -50%) scale(.23); }
+  72% { opacity: .65; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(2.8); }
+}
+@keyframes arcade-gate-echo {
+  0%, 20% { opacity: 0; transform: translate(-50%, -50%) scale(.17); }
+  41% { opacity: .4; transform: translate(-50%, -50%) scale(.25); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(2.5); }
+}
+@keyframes arcade-gate-label {
+  0%, 24% { opacity: 0; transform: translateY(7px); }
+  43%, 66% { opacity: .82; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+/* Switches use the existing 180 ms pause, then land cleanly in the next game. */
+.intro-game__canvas {
+  translate: none;
+  transform: none;
+  transition: opacity 150ms ease, transform 170ms cubic-bezier(.4,0,.65,1);
+}
+[data-intro-phase="switching"] .intro-game__canvas {
+  opacity: 0;
+  translate: none;
+  transform: translate3d(-24px, 0, 0);
+}
+[data-intro-phase="playing"] .intro-game__canvas {
+  animation: arcade-scene-arrive 240ms cubic-bezier(.16,.75,.3,1) both;
+}
+[data-intro-phase="playing"] .intro-game__hud {
+  animation: arcade-hud-arrive 230ms cubic-bezier(.16,.75,.3,1) 45ms both;
+}
+@keyframes arcade-scene-arrive {
+  from { opacity: 0; transform: translate3d(18px, 0, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes arcade-hud-arrive {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 640px) {
+  .arcade-transition__label { font-size: 7px; letter-spacing: .1em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .arcade-transition,
+  .arcade-transition::before,
+  .arcade-transition::after { animation: none !important; }
+  [data-intro-phase="launching"] .intro-begin,
+  [data-intro-phase="playing"] .intro-game__canvas,
+  [data-intro-phase="playing"] .intro-game__hud { animation: none !important; }
+  .intro-game__canvas { transition: none; }
+  [data-intro-phase="switching"] .intro-game__canvas {
+    opacity: 1;
+    transform: none;
+    translate: none;
+  }
+}

@@ -203,7 +203,14 @@
 [data-intro-phase="exiting"] .intro-game__touch,
 [data-intro-phase="exiting"] .intro-game__fallback { display: none; }
 [data-intro-phase="exiting"] .intro-game__result { display: none; }
-.site-loader.is-leaving { opacity: 0; pointer-events: none; transition-duration: 260ms; }
+.site-loader { --arcade-reveal-duration: 720ms; }
+.site-loader.is-leaving { opacity: 0; pointer-events: none; transition-duration: var(--arcade-reveal-duration); }
+/* The overlay sprite lands exactly on #catBase before the DOM image takes over. */
+.is-loading .site-loader.has-mascot-handoff { background: transparent; transition: none; }
+.has-mascot-handoff .intro-game__canvas { visibility: hidden; }
+.arcade-handoff { position: absolute; z-index: 12; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.has-arcade-handoff #catBase { opacity: 0; }
+.has-arcade-handoff #reveal { visibility: hidden; }
 @keyframes game-result-in { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
 @media (max-width: 640px) {
   .intro-game__hud { top: max(22px, env(safe-area-inset-top)); left: 20px; right: 20px; gap: 12px; }
@@ -431,6 +438,7 @@
 [data-intro-phase="loading"] .intro-loading__blocks { --block-size: 16px; --block-step: 20px; }
 @media (prefers-reduced-motion: reduce) {
   .is-loading .site-loader, .site-loader * { animation: none !important; transition: none !important; }
+  .site-loader.is-leaving { opacity: 0; }
   .intro-loading__blocks i { opacity: 1; transform: none; }
   .arcade-transition { display: none !important; }
   .arcade-launcher { transition: none; }
