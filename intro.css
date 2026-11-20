@@ -28,6 +28,18 @@
 .intro-begin:hover { filter: none; }
 .intro-begin:disabled { opacity: 1; cursor: default; filter: none; }
 .intro-begin[hidden] { display: none; }
+.intro-direct {
+  position: absolute; z-index: 4; top: calc(50% + clamp(64px, 8vw, 112px)); left: 50%;
+  transform: translateX(-50%); display: inline-flex; align-items: center; justify-content: center; gap: 18px;
+  width: max-content; max-width: calc(100% - 40px); min-height: 48px; padding: 12px 20px;
+  border: 1px solid #58624d; border-radius: 4px; background: #11160e; color: #e4edda;
+  font: 500 14px/1.4 "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  cursor: pointer; touch-action: manipulation;
+  transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+.intro-direct span { color: #c9ff73; font-size: 20px; line-height: 1; }
+.intro-direct:hover { background: #1a2412; border-color: #a7c67c; color: #fff; }
+.intro-direct[hidden], .site-loader:not([data-intro-phase="idle"]) .intro-direct { display: none; }
 .intro-begin__text { position: relative; display: block; width: 100%; }
 .intro-begin__text img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
 .intro-begin__pixels { position: absolute; left: -40px; top: -40px; width: calc(100% + 80px); height: calc(100% + 80px); pointer-events: none; }
