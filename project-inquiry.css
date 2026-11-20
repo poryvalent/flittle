@@ -6,7 +6,14 @@
 .hello-heading h2 em { font-family: Georgia, serif; font-weight: 400; }
 .hello-heading h2 > span { position: absolute; right: 0; bottom: 0; font-weight: 300; }
 .hello-heading > p:last-child { font-size: 17px; }
-.hello-details { margin-top: 50px; border-top: 1px solid #849d47; border-bottom: 1px solid #849d47; }
+/* The way in: a message to the LinkedIn page. */
+.hello-linkedin { max-width: 1280px; margin: 10px auto 0; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; }
+.hello-linkedin__button { display: inline-flex; align-items: center; gap: 12px; min-height: 60px; padding: 14px 26px; border: 1px solid #242725; border-radius: 3px; background: #242725; color: #faffed; font-size: clamp(16px, 1.4vw, 20px); font-weight: 500; letter-spacing: -.01em; text-decoration: none; transition: background .2s, color .2s; }
+.hello-linkedin__button svg { width: 22px; height: 22px; flex: none; }
+.hello-linkedin__button:hover { background: #faffed; color: #242725; }
+.hello-linkedin__button:focus-visible { outline: 3px solid #242725; outline-offset: 4px; }
+.hello-linkedin__note { margin: 0; max-width: 36ch; font-size: 14px; line-height: 1.45; color: #46532e; }
+.hello-details { margin-top: 44px; border-top: 1px solid #849d47; border-bottom: 1px solid #849d47; }
 .hello-details summary { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 24px 0; font-size: clamp(34px, 4vw, 56px); line-height: 1.1; letter-spacing: -.04em; cursor: pointer; list-style: none; }
 .hello-details summary::-webkit-details-marker { display: none; }
 .hello-details summary > span { transition: transform .3s; }
@@ -35,9 +42,11 @@
   .hello-heading h2 { font-size: clamp(43px, 9vw, 68px); margin-top: 30px; padding-bottom: 5px; }
   .hello-heading h2 > span { position: static; display: inline-block; margin-left: 12px; }
   .hello-heading > p:last-child { font-size: 15px; max-width: 27ch; }
+  .hello-linkedin { gap: 14px; }
+  .hello-linkedin__button { width: 100%; justify-content: center; }
   .hello-details { margin-top: 32px; }
   .hello-details summary { font-size: 36px; padding-block: 20px; }
   .project-inquiry__form { padding-top: 16px; }
   .project-inquiry__button { padding-inline: 17px; }
 }
-@media (prefers-reduced-motion: reduce) { .hello-details summary > span, .project-inquiry__button { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .hello-details summary > span, .project-inquiry__button, .hello-linkedin__button { transition: none; } }

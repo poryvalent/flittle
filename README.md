@@ -32,7 +32,7 @@ Any static server works. The cover's interactive scene is generated locally with
 
 2. **Story** (`style.css`, `tokens.css`, `lib/cloud.js`, `cursor.js`, `liquid.js`, `scroll.js`, `frame.js`, `reveal.js`, `veil.js`, `tone.js`): the point-cloud bust that follows the pointer, the pinned zoom-out with the flying widgets, then the Services and Approach screens. Its panels now explain a website project, the brief, review and handover instead of showing unsubstantiated operating statistics. The bust and dashboard share a short scroll glide that bridges discrete wheel notches without changing native page scrolling. Panel entries ease in and out; pointer motion retains its springs. Moving widgets use solid surfaces and gain a fixed glass treatment once settled; their transforms and opacity update independently. Layout measurements are cached and render resolution is bounded; render loops pause behind the entrance and after leaving the scene. Reduced motion, navigation jumps and layout changes snap the visual scroll position to its destination.
 3. **Work** (`lib/orbit.js`, `lib/hold.js`, `lib/focus.js`, `lib/projects.js`): on desktop, the bust bursts into dust and its surviving points become the stars of the orbit, a sphere with the project cards around it (the projects repeat around the ring until it is full). For a mouse or trackpad, the page freezes on this section: the wheel spins the orbit and drag turns it. Hover reads a project, and a click brings it into focus: the card flies out to hang in front of the camera under fog and grain while its story decodes in, terminal style, with the links as "[name] ↗". Close, Escape or the backdrop send it back. The two arrows in the pill at the bottom leave the section. Coarse-pointer devices and initial viewports under 768px instead use `lib/portfolio-mobile.js` and `portfolio-mobile.css`: a native swipe/arrow viewer with the same four project images, stories, tags and links. It has ordinary vertical scrolling, no orbit renderer or scroll hold, and visible navigation to Connect with us. The initial mode persists through rotation; desktop orbit code and styling are unchanged. Project images decode during initial loading in either mode.
-4. **Contact** (`contact.css`, `lib/contact.js`, `lib/contact-art.js`): a simplified Doodle Crew sign-off with the FLITTLE wordmark, interactive hand-drawn characters, and a link back to the project enquiry. Each letter has its own hover, tap and keyboard animation, independent of its entrance. The crew follows the pointer and responds to clicks or Enter/Space; reduced motion is respected.
+4. **Contact** (`contact.css`, `lib/contact.js`, `lib/contact-art.js`): a simplified Doodle Crew sign-off with the FLITTLE wordmark, interactive hand-drawn characters, and a link to Flittle's LinkedIn page. Each letter has its own hover, tap and keyboard animation, independent of its entrance. The crew follows the pointer and responds to clicks or Enter/Space; reduced motion is respected.
 
 ## The Make it click showcase
 
@@ -40,15 +40,15 @@ Any static server works. The cover's interactive scene is generated locally with
 
 The showcase interactions are event-driven, with no additional animation loop, renderer or external dependencies. CSS transitions respect reduced motion. The approval study is labelled as a demonstration and never submits or publishes anything.
 
-`project-inquiry.css` and `lib/project-inquiry.js` provide the **Say hello** invitation, which expands to a note field and optional reply email. It runs entirely in the browser with no backend, persistence or automatic submission. Only a nonblank note is required.
+`project-inquiry.css` and `lib/project-inquiry.js` provide the contact section: a **Message us on LinkedIn** button (the way in; the page is `https://www.linkedin.com/company/flittle/`, linked again from the sign-off) and, under it, the **Or leave a note** invitation, which expands to a note field and optional reply email. It runs entirely in the browser with no backend, persistence or automatic submission. Only a nonblank note is required.
 
 - Set `data-inquiry-email` on `[data-project-inquiry]` in `index.html` to the confirmed receiving address. With a valid address, the primary action opens a populated draft in the visitor's email app; the visitor reviews and sends it themselves.
-- Until that inbox is confirmed, the form explicitly says the contact inbox is being connected, and offers **Copy note** and **Download .txt** only. The old placeholder inbox is no longer advertised. Clipboard failure reveals a manually selectable note. The form never reports that a message was sent.
+- Until an inbox is set, the form points to the LinkedIn page and offers **Copy note** and **Download .txt** only. The old placeholder inbox is no longer advertised. Clipboard failure reveals a manually selectable note. The form never reports that a message was sent.
 - Project copy in `lib/projects.js` is shared by the orbit and mobile viewer. Keep the featured case descriptions in `index.html` aligned with the actual delivered scope. Prototypes and experimental builds are labelled; production, client, regulatory or results claims need supporting evidence before publication.
 
 ## Things to fill in
 
-- Confirm the project enquiry inbox before publishing this branch.
+- The LinkedIn page is the contact channel; an enquiry inbox can still be added later via `data-inquiry-email`.
 - Add attributable client outcomes, testimonials or delivery details only where verified.
 
 ## Deploying

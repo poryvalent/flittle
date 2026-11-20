@@ -601,13 +601,21 @@
 
   <section class="contact project-inquiry" id="contact" aria-labelledby="contact-title" data-project-inquiry data-inquiry-email="">
     <div class="hello-heading"><p class="edition-label">A good place to start.</p><h2 id="contact-title">Let's make something<br>worth <em>opening.</em><span aria-hidden="true">↗</span></h2><p>A link. A rough thought. A hello. We can start there.</p></div>
+    <!-- LinkedIn is the way in: a message to the company page reaches the team directly. -->
+    <div class="hello-linkedin">
+      <a class="hello-linkedin__button" href="https://www.linkedin.com/company/flittle/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+        <span>Message us on LinkedIn</span><span aria-hidden="true">↗</span>
+      </a>
+      <p class="hello-linkedin__note">The quickest way to reach us: send a message to the Flittle page and we'll reply there.</p>
+    </div>
     <details class="hello-details">
-      <summary>Say hello <span aria-hidden="true">↗</span></summary>
+      <summary>Or leave a note <span aria-hidden="true">↗</span></summary>
       <form class="project-inquiry__form" data-inquiry-form aria-describedby="inquiry-delivery">
         <div class="project-inquiry__field"><label for="inquiry-description">Your note</label><textarea id="inquiry-description" name="description" rows="4" required maxlength="2000" placeholder="Hey Flittle, …"></textarea></div>
         <div class="project-inquiry__field"><label for="inquiry-email">Reply email <span>(optional)</span></label><input id="inquiry-email" name="email" type="email" autocomplete="email" maxlength="180" spellcheck="false" placeholder="you@company.com"></div>
         <div class="project-inquiry__actions"><button class="project-inquiry__button" type="submit" data-inquiry-primary disabled>Copy note</button><button class="project-inquiry__button project-inquiry__button--secondary" type="button" data-inquiry-copy disabled hidden>Copy note</button><button class="project-inquiry__button project-inquiry__button--secondary" type="button" data-inquiry-download disabled>Download .txt</button></div>
-        <p class="project-inquiry__delivery" id="inquiry-delivery" data-inquiry-delivery>Our contact inbox is being connected. You can save your note here for now.</p>
+        <p class="project-inquiry__delivery" id="inquiry-delivery" data-inquiry-delivery>Write it here, then copy or download it to send on LinkedIn. Nothing is sent from this page.</p>
         <p class="project-inquiry__status" data-inquiry-status role="status" aria-live="polite" aria-atomic="true"></p>
         <div class="project-inquiry__manual" data-inquiry-manual hidden><label for="inquiry-manual-text">Your ready-to-copy note</label><textarea id="inquiry-manual-text" data-inquiry-manual-text readonly rows="8" spellcheck="false"></textarea></div>
         <noscript><p>Enable JavaScript to copy or download your note.</p></noscript>
@@ -615,7 +623,7 @@
     </details>
   </section>
 
-  <!-- A sketchbook sign-off: the crew, a hello, and one way to get in touch. -->
+  <!-- A sketchbook sign-off: the crew, a hello, and the way to get in touch (the LinkedIn page). -->
   <section class="contact project-signoff" id="signoff" aria-labelledby="signoff-title" data-doodle-footer>
     <div class="connect">
       <div class="connect__world">
@@ -626,7 +634,7 @@
       <div class="connect__message">
         <h2 id="signoff-title">A little imagination.<br>A useful next step.</h2>
         <p>Bring the rough idea. We can start there.</p>
-        <a class="connect__mail" href="#contact"><span>Say hello</span><span aria-hidden="true">&#8599;</span></a>
+        <a class="connect__mail" href="https://www.linkedin.com/company/flittle/" target="_blank" rel="noopener"><span>Find us on LinkedIn</span><span aria-hidden="true">&#8599;</span></a>
       </div>
       <small class="connect__copyright">&copy; <span data-contact-year>2026</span> Flittle</small>
     </div>
