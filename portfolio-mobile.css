@@ -84,6 +84,7 @@
   scroll-snap-stop: always;
 }
 .mobile-work__image { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center top; background: #192332; }
+.mobile-work__image--contained { background: #080b12; }
 .mobile-work__body { padding: 23px 20px 26px; }
 .mobile-work__kicker { margin: 0 0 10px; color: #96b7cf; font-size: 12px; line-height: 1.6; }
 .mobile-work__title { margin: 0 0 16px; font-size: clamp(27px, 6.5vw, 38px); line-height: 1.12; letter-spacing: -.045em; text-wrap: balance; }
