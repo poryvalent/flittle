@@ -1,58 +1,18 @@
-/* The flittle opening cover. Charcoal lettering and the original colour mascot on pastel confetti paper;
-   gently drifting doodles frame the word, with a neon road revealed by the pointer.
+/* The flittle opening cover. One shuffled pool of illustrated and cinematic worlds;
+   the pointer reveals another scene behind the original wordmark.
    Everything is scoped to .ink-hero so none of it leaks into the Kin OS sections that follow, and
    the cover sits above the fixed bust stage until it has scrolled away. */
 .ink-hero {
   --ink-bg: #fff; --ink-fg: #0d0d0d; --ink-muted: #8a8279; --ink-word: #24282c;
   position: relative; z-index: 5; isolation: isolate;
   width: 100%; height: 100vh; height: 100svh; overflow: hidden;
-  background: var(--ink-bg); color: var(--ink-fg);
-  /* Original vector paper: fine speckles, tiny stars and faint pastel wisps. */
-  background-image: url("assets/hero-paper-texture.svg");
-  background-size: 512px 512px;
-  background-position: center top;
-  background-repeat: repeat;
+  background: #c6e5ed; color: var(--ink-fg);
   font-family: "Inter Tight", system-ui, sans-serif; font-size: 16px; line-height: 1.25; letter-spacing: 0;
-  -webkit-font-smoothing: antialiased; cursor: none;
+  -webkit-font-smoothing: antialiased; cursor: none; touch-action: pan-y pinch-zoom;
 }
 
-/* A little illustrated playground, beneath the artwork and reveal canvas.
-   The hero lifecycle resumes these transform-only animations while the cover is visible. */
-.ink-hero .cover-garden { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.ink-hero .cover-garden__paths { position: absolute; inset: 0; width: 100%; height: 100%; color: #c7d6e0; opacity: .32; }
-.ink-hero .cover-doodle {
-  position: absolute; display: block; width: var(--doodle-size); height: auto;
-  overflow: visible; transform: rotate(var(--doodle-turn, 0deg));
-  color: #37383c; stroke-width: 2.3; stroke-linejoin: round; stroke-linecap: round;
-  transform-origin: 50% 50%;
-  animation: cover-doodle-drift var(--doodle-period, 13s) ease-in-out var(--doodle-delay, 0s) infinite;
-  animation-play-state: paused;
-}
-.ink-hero.is-garden-active .cover-doodle { animation-play-state: running; }
-.ink-hero .cover-doodle:nth-of-type(3n) { --doodle-period: 15.3s; --doodle-delay: -5.1s; }
-.ink-hero .cover-doodle:nth-of-type(3n + 1) { --doodle-period: 12.7s; --doodle-delay: -8.4s; }
-.ink-hero .cover-doodle:nth-of-type(3n + 2) { --doodle-period: 14.1s; --doodle-delay: -1.9s; }
-.ink-hero .cover-doodle--flower { --doodle-size: clamp(58px, 5.5vw, 88px); --doodle-turn: -13deg; left: 27%; top: 13%; }
-.ink-hero .cover-doodle--planet { --doodle-size: clamp(82px, 7.5vw, 120px); --doodle-turn: -15deg; left: 62%; top: 8%; }
-.ink-hero .cover-doodle--blue-star { --doodle-size: clamp(38px, 3.5vw, 56px); --doodle-turn: 15deg; right: 12%; top: 25%; }
-.ink-hero .cover-doodle--cloud { --doodle-size: clamp(88px, 8.3vw, 134px); --doodle-turn: -8deg; left: 13%; bottom: 12%; }
-.ink-hero .cover-doodle--heart { --doodle-size: clamp(48px, 4.5vw, 72px); --doodle-turn: 12deg; right: 21%; bottom: 12%; }
-.ink-hero .cover-doodle--gold-star { --doodle-size: clamp(42px, 4vw, 64px); --doodle-turn: -11deg; left: 44%; bottom: 7%; }
-.ink-hero .cover-doodle--cherries { --doodle-size: clamp(36px, 4vw, 58px); --doodle-turn: 11deg; left: 10%; top: 21%; }
-.ink-hero .cover-doodle--butterfly { --doodle-size: clamp(40px, 4vw, 58px); --doodle-turn: -17deg; right: 28%; top: 22%; }
-.ink-hero .cover-doodle--sun { --doodle-size: clamp(34px, 3.3vw, 48px); --doodle-turn: 8deg; left: 31%; bottom: 17%; }
-.ink-hero .cover-doodle--comet { --doodle-size: clamp(46px, 4.7vw, 68px); --doodle-turn: -12deg; right: 6%; bottom: 15%; }
-
-@keyframes cover-doodle-drift {
-  0%, 100% { transform: translate(0, 0) rotate(var(--doodle-turn, 0deg)); }
-  25% { transform: translate(2px, -5px) rotate(calc(var(--doodle-turn, 0deg) + 2deg)); }
-  52% { transform: translate(-2px, -2px) rotate(calc(var(--doodle-turn, 0deg) - 1deg)); }
-  60%, 74% { transform: translate(0, -3px) rotate(var(--doodle-turn, 0deg)); }
-  63% { transform: translate(0, -3px) rotate(calc(var(--doodle-turn, 0deg) - 4deg)); }
-  66% { transform: translate(1px, -3px) rotate(calc(var(--doodle-turn, 0deg) + 3deg)); }
-  69% { transform: translate(-1px, -3px) rotate(calc(var(--doodle-turn, 0deg) - 2deg)); }
-  88% { transform: translate(1px, 2px) rotate(calc(var(--doodle-turn, 0deg) + 1deg)); }
-}
+/* A decoded scene remains underneath the live shader and supplies its fallback. */
+.ink-hero .village-scene { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 50%; transform: scale(1.01523); pointer-events: none; user-select: none; }
 
 /* wordmark: "fli" + cat + "le"; the complete colour artwork also works without WebGL. */
 .ink-hero .word {
@@ -69,28 +29,50 @@
 .ink-hero .baseline { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
 
 .ink-hero #reveal { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+.hero-world-poster { display: none; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.is-ink-static .village-scene { visibility: hidden; }
+.is-ink-static .hero-world-poster[data-active="true"] { display: block; }
+.is-ink-static .word { text-shadow: 0 2px 8px #0003; }
+/* Keep the original full-color mascot in static fallbacks. */
+.is-ink-static .cat { filter: drop-shadow(0 2px 3px #061e3840); }
+.is-ink-static[data-world="village"] .word { color: #3d6126; }
+.is-ink-static[data-world="galaxy"] .word { color: #80edfa; text-shadow: 0 0 12px #29c8ed66; }
+.is-ink-static[data-world="galaxy"] .cat { filter: saturate(1.8) brightness(.84) drop-shadow(0 0 3px #80edfa); }
+.is-ink-static[data-world="web3"] .word { color: #d6dedb; }
+.is-ink-static[data-world="harbor"] .word { color: #e8dbc7; }
+.is-ink-static[data-world="wonder"] .word { color: #61407a; }
+.is-ink-static[data-world="moxly"] .word { color: #f2bdc2; }
+.is-ink-static[data-world="sellix"] .word { color: #c7baed; }
 
-/* corner UI */
-.ink-hero .ui { position: absolute; z-index: 4; font-size: 13px; line-height: 1.25; }
-.ink-hero .top-left { top: 26px; left: 30px; max-width: 280px; }
-.ink-hero .top-left .eyebrow { font-size: 10px; color: var(--ink-muted); margin-bottom: 8px; letter-spacing: .02em; }
-.ink-hero .top-left p { font-weight: 500; color: #3a3a3a; margin: 0; }
-.ink-hero .pill {
-  display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 7px 12px 7px 14px; background: var(--ink-fg); color: #fff;
-  border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; cursor: none;
-  transition: transform .3s cubic-bezier(.2, .8, .2, 1);
+/* Just two compact controls; scene announcements are screen-reader-only. */
+.hero-cycle {
+  position: absolute; z-index: 4; top: max(24px, calc(env(safe-area-inset-top) + 12px)); left: calc(50% - 50px);
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%;
+  border: 1px solid #ffffff40; background: #141820ed; color: #edf0f3; cursor: pointer; touch-action: manipulation;
+  box-shadow: 0 3px 14px #0002; -webkit-tap-highlight-color: transparent;
 }
-.ink-hero .pill:hover { transform: translateX(3px); }
-.ink-hero .pill svg { width: 8px; height: 8px; }
-.ink-hero .nav { top: 26px; right: 30px; list-style: none; margin: 0; padding: 0; }
-.ink-hero .nav li { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
-.ink-hero .nav li i { display: inline-block; width: 14px; height: 6px; border-radius: 3px; background: #cfcfcc; transition: background .3s, width .3s; }
-.ink-hero .nav a { color: #555; text-decoration: none; cursor: none; transition: color .3s; }
-.ink-hero .nav li:hover i { background: var(--ink-fg); width: 20px; }
-.ink-hero .nav li:hover a { color: var(--ink-fg); }
-.ink-hero .bottom-left  { bottom: 24px; left: 30px;  font-size: 10px; color: var(--ink-muted); }
-.ink-hero .bottom-right { bottom: 24px; right: 30px; font-size: 10px; color: var(--ink-muted); }
-.ink-hero .scroll-dash { display: inline-block; width: 18px; height: 3px; background: #bdbdba; border-radius: 2px; vertical-align: middle; margin-right: 8px; }
+.hero-cycle svg { width: 20px; height: 20px; transition: transform .4s ease; }
+.hero-cycle:hover svg { transform: rotate(65deg); }
+.hero-cycle:hover { border-color: #ffffffa3; background: #252b36; }
+.hero-cycle:focus-visible { outline: 2px solid #93d5ff; outline-offset: 5px; }
+.hero-cycle:disabled { cursor: wait; opacity: .65; }
+.hero-cycle[aria-busy="true"] svg { animation: hero-cycle-turn 1.2s linear infinite; }
+@keyframes hero-cycle-turn { to { transform: rotate(360deg); } }
+.is-cover .arcade-launcher {
+  top: max(24px, calc(env(safe-area-inset-top) + 12px)); left: calc(50% + 6px); right: auto;
+  width: 44px; height: 44px; padding: 0; border-radius: 50%; border-color: #ffffff40; background: #141820ed;
+  box-shadow: 0 3px 14px #0002;
+}
+.is-cover .arcade-launcher > span { display: none; }
+.is-cover .arcade-launcher:hover { background: #252b36; border-color: #ffffffa3; }
+.is-cover .arcade-launcher:focus-visible { outline-color: #93d5ff; }
+
+/* The procedural galaxy also has a lightweight non-WebGL fallback. */
+.ink-hero.is-ink-static {
+  background-color: #070e23;
+  background-image: radial-gradient(circle at 20% 30%, #d8f7ff 0 1px, transparent 1.5px), radial-gradient(circle at 70% 60%, #9aafff 0 1px, transparent 1.5px), radial-gradient(ellipse at 50% 80%, #35215a, transparent 65%);
+  background-size: 89px 109px, 151px 137px, 100% 100%;
+}
 
 /* custom cursor, only while the pointer is over the cover */
 .ink-cursor {
@@ -102,43 +84,11 @@
 .ink-cursor.big { width: 34px; height: 34px; margin: -17px 0 0 -17px; }
 
 @media (max-width: 640px) {
-  .ink-hero .cover-garden__paths { display: none; }
-  .ink-hero .cover-doodle--flower { --doodle-size: 66px; left: 11%; top: 24%; }
-  .ink-hero .cover-doodle--planet { --doodle-size: 88px; left: auto; right: 12%; top: 20%; }
-  .ink-hero .cover-doodle--blue-star { --doodle-size: 30px; right: 8%; top: 36%; }
-  .ink-hero .cover-doodle--cloud { --doodle-size: 96px; left: 10%; bottom: 25%; }
-  .ink-hero .cover-doodle--heart { --doodle-size: 54px; right: 13%; bottom: 22%; }
-  .ink-hero .cover-doodle--gold-star { --doodle-size: 46px; left: 42%; bottom: 10%; }
-  .ink-hero .cover-doodle--cherries { --doodle-size: 37px; left: 44%; top: 31%; }
-  .ink-hero .cover-doodle--butterfly { --doodle-size: 42px; left: 43%; right: auto; top: auto; bottom: 29%; }
-  .ink-hero .cover-doodle--sun { --doodle-size: 32px; left: 11%; bottom: 10%; }
-  .ink-hero .cover-doodle--comet { --doodle-size: 44px; right: 10%; bottom: 8%; }
-  .ink-hero .top-left { top: 18px; left: 16px; max-width: 200px; }
-  .ink-hero .nav { top: 18px; right: 16px; }
-  .ink-hero .bottom-left { left: 16px; }
-  .ink-hero .bottom-right { right: 16px; }
-  .ink-hero, .ink-hero .pill, .ink-hero .nav a { cursor: auto; }
+  .ink-hero { cursor: auto; }
+  .ink-hero .village-scene, .is-ink-static[data-world="village"] .hero-world-poster { object-position: 78% 50%; }
   .ink-cursor { display: none; }
 }
-
-@media (max-width: 640px) and (max-height: 640px) {
-  .ink-hero .cover-doodle--planet { --doodle-size: 72px; top: max(152px, 27%); }
-}
-
-@media (max-height: 560px) and (min-width: 641px) {
-  .ink-hero .cover-doodle--flower { --doodle-size: 46px; top: 9%; left: 33%; }
-  .ink-hero .cover-doodle--planet { --doodle-size: 66px; top: 4%; }
-  .ink-hero .cover-doodle--blue-star { display: none; }
-  .ink-hero .cover-doodle--cloud { --doodle-size: 74px; bottom: 8%; }
-  .ink-hero .cover-doodle--heart { --doodle-size: 42px; bottom: 9%; }
-  .ink-hero .cover-doodle--gold-star { --doodle-size: 34px; bottom: 5%; }
-  .ink-hero .cover-doodle--cherries { --doodle-size: 32px; left: 46%; top: 3%; }
-  .ink-hero .cover-doodle--butterfly { display: none; }
-  .ink-hero .cover-doodle--sun { --doodle-size: 28px; left: 28%; bottom: 8%; }
-  .ink-hero .cover-doodle--comet { --doodle-size: 36px; bottom: calc(9% + 10px); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .ink-hero .cover-doodle { animation: none; }
-  .ink-cursor, .ink-hero .pill, .ink-hero .nav a, .ink-hero .nav li i { transition: none; }
+  .ink-cursor { transition: none; }
+  .hero-cycle svg { animation: none !important; transition: none; }
 }

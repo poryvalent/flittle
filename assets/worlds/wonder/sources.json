@@ -1,0 +1,11 @@
+{
+  "reference": "Step Into Wonder, supplied by the user",
+  "note": "Original, unmodified public asset bytes stored locally so the cover can sample them as WebGL textures. The source host does not provide cross-origin texture access. world.jpg is JPEG despite the original .png URL.",
+  "assets": {
+    "world.jpg": "https://flick-award-65707097.figma.site/_assets/v11/4f4f0651516e75fbfeebf87e12be372c0683a7fd.png",
+    "portal.png": "https://flick-award-65707097.figma.site/_assets/v11/bbc8d4f1308d5df012c4b0a657b44c6d92609c24.png",
+    "curtain-left.png": "https://flick-award-65707097.figma.site/_assets/v11/535b5bc4f8b600a7758bc74dc3540f405f0b89a6.png",
+    "curtain-right.png": "https://flick-award-65707097.figma.site/_assets/v11/ab14033a7fe6dcedbae303726331b6a26d9d201c.png",
+    "clouds.png": "https://flick-award-65707097.figma.site/_assets/v11/fb811f79bccceab1c4cdbb81b5524632cffc9c52.png"
+  }
+}
