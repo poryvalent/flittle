@@ -39,27 +39,45 @@
 .is-ink-static[data-world="galaxy"] .word { color: #80edfa; text-shadow: 0 0 12px #29c8ed66; }
 .is-ink-static[data-world="galaxy"] .cat { filter: saturate(1.8) brightness(.84) drop-shadow(0 0 3px #80edfa); }
 .is-ink-static[data-world="web3"] .word { color: #d6dedb; }
-.is-ink-static[data-world="harbor"] .word { color: #e8dbc7; }
 .is-ink-static[data-world="wonder"] .word { color: #61407a; }
 .is-ink-static[data-world="moxly"] .word { color: #f2bdc2; }
 .is-ink-static[data-world="sellix"] .word { color: #c7baed; }
 
-/* Just two compact controls; scene announcements are screen-reader-only. */
-.hero-cycle {
-  position: absolute; z-index: 4; top: max(24px, calc(env(safe-area-inset-top) + 12px)); left: calc(50% - 50px);
-  display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%;
-  border: 1px solid #ffffff40; background: #141820ed; color: #edf0f3; cursor: pointer; touch-action: manipulation;
-  box-shadow: 0 3px 14px #0002; -webkit-tap-highlight-color: transparent;
+/* The whole scene is the control. A quiet ripple cue sits in the lower-left;
+   keyboard focus belongs to the small cue, never a frame around the artwork. */
+.hero-theme-surface {
+  position: absolute; z-index: 3; inset: 0; display: block; width: 100%; height: 100%;
+  padding: 0; margin: 0; border: 0; border-radius: 0; appearance: none;
+  outline: none !important; box-shadow: none !important; background: transparent !important;
+  cursor: none; touch-action: pan-y pinch-zoom; -webkit-tap-highlight-color: transparent;
 }
-.hero-cycle svg { width: 20px; height: 20px; transition: transform .4s ease; }
-.hero-cycle:hover svg { transform: rotate(65deg); }
-.hero-cycle:hover { border-color: #ffffffa3; background: #252b36; }
-.hero-cycle:focus-visible { outline: 2px solid #93d5ff; outline-offset: 5px; }
-.hero-cycle:disabled { cursor: wait; opacity: .65; }
-.hero-cycle[aria-busy="true"] svg { animation: hero-cycle-turn 1.2s linear infinite; }
-@keyframes hero-cycle-turn { to { transform: rotate(360deg); } }
+.hero-theme-surface:disabled { opacity: 1; }
+.hero-theme-hint {
+  z-index: 4; display: flex; align-items: center; gap: 7px; pointer-events: none; user-select: none;
+  width: max-content; max-width: calc(100vw - 24px); padding: 8px 13px 8px 10px;
+  color: #f5f6f7; background: #11151dcc; border: 1px solid #ffffff24; border-radius: 40px;
+  font-size: 11px; font-weight: 450; line-height: 1; letter-spacing: .025em;
+  box-shadow: 0 2px 10px #00000012; transition: opacity .2s ease;
+}
+.hero-theme-hint {
+  position: absolute; bottom: max(25px, calc(env(safe-area-inset-bottom) + 15px));
+  left: max(24px, calc(env(safe-area-inset-left) + 16px)); opacity: .85;
+}
+.hero-theme-hint__touch { display: none; }
+.hero-theme-ripple { flex: 0 0 20px; width: 20px; height: 20px; stroke: currentColor; stroke-width: 1; }
+.hero-theme-ripple__outer { opacity: .35; transform-origin: 11px 11px; animation: hero-hint-ripple 3.6s ease-out infinite; }
+.hero-theme-ripple__inner { opacity: .7; }
+.has-theme-keyboard-focus .hero-theme-surface:focus-visible ~ .hero-theme-hint {
+  opacity: 1; outline: 2px solid #fff; outline-offset: 4px;
+}
+.hero-theme-surface[aria-busy="true"] ~ .hero-theme-hint { opacity: 0; }
+.is-theme-changing .hero-theme-hint { opacity: 0; }
+@keyframes hero-hint-ripple {
+  0%, 35%, 100% { transform: scale(1); opacity: .35; }
+  60% { transform: scale(1.15); opacity: .1; }
+}
 .is-cover .arcade-launcher {
-  top: max(24px, calc(env(safe-area-inset-top) + 12px)); left: calc(50% + 6px); right: auto;
+  top: max(24px, calc(env(safe-area-inset-top) + 12px)); left: calc(50% - 22px); right: auto;
   width: 44px; height: 44px; padding: 0; border-radius: 50%; border-color: #ffffff40; background: #141820ed;
   box-shadow: 0 3px 14px #0002;
 }
@@ -88,7 +106,13 @@
   .ink-hero .village-scene, .is-ink-static[data-world="village"] .hero-world-poster { object-position: 78% 50%; }
   .ink-cursor { display: none; }
 }
+@media (hover: none), (pointer: coarse) {
+  .hero-theme-surface { cursor: auto; }
+  .hero-theme-hint__desktop { display: none; }
+  .hero-theme-hint__touch { display: inline; }
+}
 @media (prefers-reduced-motion: reduce) {
   .ink-cursor { transition: none; }
-  .hero-cycle svg { animation: none !important; transition: none; }
+  .hero-theme-hint { transition: none; }
+  .hero-theme-ripple__outer { animation: none; }
 }
